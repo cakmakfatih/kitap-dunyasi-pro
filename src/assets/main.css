@@ -1,0 +1,30 @@
+@import "./base.css";
+
+.form {
+	min-width: 340px;
+	width: 90%;
+	max-height: 600px;
+	height: 90%;
+	display: flex;
+	flex-direction: column;
+}
+.form-wrapper {
+	display: flex;
+	flex: 1;
+	align-self: stretch;
+	justify-content: center;
+	align-items: center;
+}
+.form-header {
+	display: flex;
+	flex-direction: column;
+	margin: 25px 10px;
+}
+.form-title {
+	font-size: 46px;
+	font-weight: bold;
+}
+.form-subtitle {
+	font-size: 19px;
+	opacity: 0.54;
+}
