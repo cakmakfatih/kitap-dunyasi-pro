@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MainLayout from "@/components/layouts/MainLayout.vue";
-import { useAuthStore } from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth/auth.store";
 import { storeToRefs } from "pinia";
 import { watch } from "vue";
 import { useRouter } from "vue-router";
