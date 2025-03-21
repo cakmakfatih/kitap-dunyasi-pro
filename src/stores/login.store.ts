@@ -1,36 +1,21 @@
 import { defineStore } from "pinia";
-import type {
-	SignUpActions,
-	SignUpGetters,
-	SignUpState,
-} from "./sign-up.interface";
-import { type FormError } from "@/services/api.service";
+import type { LoginActions, LoginGetters, LoginState } from "./login.interface";
+import type { FormError } from "@/services/api.service";
 
-const validateForm = (
-	name: string,
-	email: string,
-	password: string,
-	isAgreementAccepted: boolean
-) => {
-	return (
-		name.length > 0 &&
-		email.length > 0 &&
-		password.length > 0 &&
-		isAgreementAccepted
-	);
+const validateForm = (email: string, password: string): boolean => {
+	return email !== "" && password !== "";
 };
 
-export const useSignUpStore = defineStore<
-	"sign-up",
-	SignUpState,
-	SignUpGetters,
-	SignUpActions
->("sign-up", {
-	state: (): SignUpState => ({
-		name: "",
+export const useLoginStore = defineStore<
+	"login",
+	LoginState,
+	LoginGetters,
+	LoginActions
+>("login", {
+	state: (): LoginState => ({
 		email: "",
 		password: "",
-		isAgreementAccepted: false,
+		rememberMe: JSON.parse(localStorage.getItem("rememberMe") ?? "false"),
 		isLoading: false,
 		error: {
 			hasErrors: false,
@@ -43,13 +28,8 @@ export const useSignUpStore = defineStore<
 		},
 	}),
 	getters: {
-		isFormValid: (state: SignUpState): boolean => {
-			return validateForm(
-				state.name,
-				state.email,
-				state.password,
-				state.isAgreementAccepted
-			);
+		isFormValid: (state: LoginState): boolean => {
+			return validateForm(state.email, state.password);
 		},
 	},
 	actions: {
@@ -75,10 +55,18 @@ export const useSignUpStore = defineStore<
 			};
 		},
 		resetForm() {
-			this.name = "";
 			this.email = "";
 			this.password = "";
-			this.isAgreementAccepted = false;
+			this.rememberMe = false;
+		},
+		setRememberMe(r: boolean) {
+			this.rememberMe = r;
+		},
+		setEmail(e: string) {
+			this.email = e;
+		},
+		setPassword(p: string) {
+			this.password = p;
 		},
 	},
 });

@@ -28,18 +28,19 @@
 	font-size: 19px;
 	opacity: 0.54;
 }
-.already-a-member {
+.text-link {
+	color: var(--color-text);
 	text-align: center;
 	padding: 10px 10px;
-	text-decoration: underline;
+	text-decoration: none;
 	cursor: pointer;
 	opacity: 0.4;
 	transition: opacity 0.15s;
 }
-.already-a-member:hover {
+.text-link:hover {
 	opacity: 0.8;
 }
-.already-a-member:active {
+.text-link:active {
 	opacity: 0.4;
 }
 .left-pane {

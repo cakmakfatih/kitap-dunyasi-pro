@@ -48,6 +48,7 @@ const onInput = (event: Event) => {
 			@blur="onBlur"
 			@input="onInput"
 			:id="inputId"
+			:value="modelValue"
 			v-bind="$attrs"
 		/>
 		<template v-for="(err, index) in errors" :key="index">

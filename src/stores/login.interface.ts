@@ -1,24 +1,24 @@
 import type { FormError } from "@/services/api.service";
 
-export interface SignUpState {
-	name: string;
+export interface LoginState {
 	email: string;
 	password: string;
-	isAgreementAccepted: boolean;
-	isLoading: boolean;
 	error: FormError;
+	rememberMe: boolean;
+	isLoading: boolean;
 }
-
-export interface SignUpGetters {
-	isFormValid: (state: SignUpState) => boolean;
+export interface LoginGetters {
+	isFormValid: (state: LoginState) => boolean;
 	[key: string]: (
-		state: SignUpState
+		state: LoginState
 	) => boolean | string | number | object | undefined;
 }
-
-export interface SignUpActions {
+export interface LoginActions {
 	setIsLoading: (l: boolean) => void;
 	setError: (e: FormError) => void;
 	resetError: () => void;
 	resetForm: () => void;
+	setRememberMe: (r: boolean) => void;
+	setEmail: (e: string) => void;
+	setPassword: (p: string) => void;
 }

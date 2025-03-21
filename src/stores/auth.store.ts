@@ -13,15 +13,12 @@ export const useAuthStore = defineStore<
 	AuthGetters,
 	AuthActions
 >("auth", {
-	state: (): AuthState => {
-		const token = localStorage.getItem("accessToken") ?? "";
-		return {
-			user: null,
-			isLoading: false,
-			accessToken: token,
-			isAuthenticated: false,
-		};
-	},
+	state: (): AuthState => ({
+		user: null,
+		isLoading: false,
+		accessToken: localStorage.getItem("accessToken") ?? "",
+		isAuthenticated: false,
+	}),
 	actions: {
 		setToken(token: string) {
 			this.accessToken = token;

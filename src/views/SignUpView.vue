@@ -100,7 +100,9 @@ const register = async (e: Event) => {
 						type="submit"
 						>Kayıt Ol</Button
 					>
-					<span class="already-a-member">Zaten üye misin? Giriş yap.</span>
+					<RouterLink to="sign-in" class="text-link"
+						>Zaten üye misin? Giriş yap.</RouterLink
+					>
 				</div>
 			</form>
 		</template>

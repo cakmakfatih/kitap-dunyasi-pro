@@ -12,6 +12,7 @@ const router = createRouter({
 			component: RedirectIfAuth,
 			children: [
 				{
+					name: "sign-in-child",
 					path: "",
 					component: () => import("@/views/LoginView.vue"),
 				},
@@ -23,6 +24,7 @@ const router = createRouter({
 			component: RedirectIfAuth,
 			children: [
 				{
+					name: "sign-up-child",
 					path: "",
 					component: () => import("@/views/SignUpView.vue"),
 				},

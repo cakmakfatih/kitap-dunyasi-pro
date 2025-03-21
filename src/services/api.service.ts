@@ -11,7 +11,7 @@ const client = axios.create({
 	baseURL: "",
 });
 
-export interface RegisterError {
+export interface FormError {
 	hasErrors: boolean;
 	generalError: string;
 	fieldErrors: {
@@ -24,10 +24,16 @@ export interface RegisterError {
 export interface RegisterUserResponse {
 	success: boolean;
 	token: string | null;
-	error: RegisterError;
+	error: FormError;
 }
 
-export const emptyRegisterErrors: RegisterError = {
+export interface LoginUserResponse {
+	success: boolean;
+	token: string | null;
+	error: FormError;
+}
+
+export const emptyErrors: FormError = {
 	hasErrors: false,
 	generalError: "",
 	fieldErrors: {
@@ -51,7 +57,7 @@ async function registerUser({
 	const users: { [key: string]: User } = JSON.parse(existingUsersStr);
 	const emails: string[] = Object.values(users).map((i) => i.email);
 
-	const errors = Object.assign({}, emptyRegisterErrors);
+	const errors = Object.assign({}, emptyErrors);
 	errors.hasErrors = false;
 	errors.generalError = "";
 	errors.fieldErrors.name = [];
@@ -232,14 +238,66 @@ export function useApiService() {
 	const login = async (
 		email: string,
 		password: string
-	): Promise<User | null> => {
-		const user = decodeToken(localStorage.getItem("accessToken") ?? "");
+	): Promise<LoginUserResponse> => {
+		const mockLoadingTime = 1000;
+		return new Promise((resolve, reject) => {
+			setTimeout(async () => {
+				const errors = Object.assign({}, emptyErrors);
+				errors.hasErrors = false;
+				errors.generalError = "";
+				errors.fieldErrors.name = [];
+				errors.fieldErrors.email = [];
+				errors.fieldErrors.password = [];
+				const users: { [key: string]: User } = JSON.parse(
+					localStorage.getItem("users") ?? "[]"
+				);
+				const userKeys = Object.keys(users);
+				const userValues = Object.values(users);
 
-		if (!user) {
-			return null;
-		}
+				const userIdx = userValues.findIndex(
+					(u) => u.email === email && u.password === password
+				);
+				if (userIdx !== -1) {
+					localStorage.setItem("accessToken", userKeys[userIdx]);
+					resolve({
+						success: true,
+						token: userKeys[userIdx],
+						error: errors,
+					});
+				}
 
-		return user;
+				const userDoesntExist =
+					userValues.findIndex((u) => u.email === email) === -1;
+				if (userDoesntExist) {
+					errors.generalError = "Kullanıcı mevcut değil.";
+					reject({
+						success: false,
+						token: null,
+						error: errors,
+					});
+				}
+
+				const userExistsCredentialsWrong =
+					userValues.findIndex(
+						(u) => u.email === email && u.password !== password
+					) === -1;
+				if (userExistsCredentialsWrong) {
+					errors.generalError = "Şifre hatalı.";
+					reject({
+						success: false,
+						token: null,
+						error: errors,
+					});
+				}
+
+				errors.generalError = "Beklenmedik bir hata meydana geldi.";
+				reject({
+					success: false,
+					token: null,
+					error: errors,
+				});
+			}, mockLoadingTime);
+		});
 	};
 
 	const getSession = async (
@@ -278,5 +336,6 @@ export function useApiService() {
 		get,
 		post,
 		register,
+		login,
 	};
 }
