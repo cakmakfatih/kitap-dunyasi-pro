@@ -10,13 +10,12 @@ const authStore = useAuthStore();
 const { isAuthenticated } = storeToRefs(authStore);
 
 const logout = (e: Event) => {
-	localStorage.removeItem("accessToken");
 	authStore.logout();
 };
 
 watch(isAuthenticated, (state) => {
 	if (!state) {
-		router.push({ name: "sign-up", replace: true });
+		router.push({ path: "/sign-up", replace: true });
 	}
 });
 </script>

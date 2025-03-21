@@ -30,6 +30,7 @@ export const useAuthStore = defineStore<
 			this.isLoading = true;
 
 			if (!isLoggedIn) {
+				this.user = null;
 				this.accessToken = "";
 				localStorage.removeItem("accessToken");
 				this.isAuthenticated = false;
@@ -38,6 +39,7 @@ export const useAuthStore = defineStore<
 				this.user = u;
 				this.isAuthenticated = true;
 			}
+
 			this.isLoading = false;
 		},
 		setSession() {

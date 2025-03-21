@@ -20,9 +20,6 @@ const store = useSignUpStore();
 const authStore = useAuthStore();
 const apiService = useApiService();
 
-const { isAuthenticated } = storeToRefs(authStore);
-authStore.setSession();
-
 const register = async (e: Event) => {
 	e.preventDefault();
 	store.setIsLoading(true);
@@ -39,7 +36,7 @@ const register = async (e: Event) => {
 			store.resetForm();
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
-			router.replace("/");
+			router.push({ path: "/", replace: true });
 		} else {
 			store.setError(result.error);
 		}
@@ -50,12 +47,6 @@ const register = async (e: Event) => {
 		store.setIsLoading(false);
 	}
 };
-
-watch(isAuthenticated, (state) => {
-	if (state) {
-		router.push({ name: "home", replace: true });
-	}
-});
 </script>
 
 <template>

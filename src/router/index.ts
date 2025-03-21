@@ -1,6 +1,7 @@
 import { useApiService } from "@/services/api.service";
 import { useAuthStore } from "@/stores/auth.store";
 import { createRouter, createWebHistory } from "vue-router";
+import RedirectIfAuth from "@/components/route-guards/RedirectIfAuth.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,12 +9,24 @@ const router = createRouter({
 		{
 			path: "/sign-in",
 			name: "sign-in",
-			component: () => import("@/views/LoginView.vue"),
+			component: RedirectIfAuth,
+			children: [
+				{
+					path: "",
+					component: () => import("@/views/LoginView.vue"),
+				},
+			],
 		},
 		{
 			path: "/sign-up",
 			name: "sign-up",
-			component: () => import("@/views/SignUpView.vue"),
+			component: RedirectIfAuth,
+			children: [
+				{
+					path: "",
+					component: () => import("@/views/SignUpView.vue"),
+				},
+			],
 		},
 		{
 			path: "/",
