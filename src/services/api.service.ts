@@ -94,6 +94,7 @@ async function registerUser({
 		"users",
 		JSON.stringify({ ...users, [token]: { ...user } })
 	);
+	localStorage.setItem("accessToken", token);
 
 	const response: AxiosResponse<RegisterUserResponse> = {
 		data: {
@@ -250,7 +251,7 @@ export function useApiService() {
 		try {
 			const authenticated = await mockAuthCheck(token);
 			if (authenticated.data) {
-				const user = decodeToken(token)!;
+				const user = decodeToken(token);
 				return {
 					user,
 					isLoggedIn: true,
@@ -261,7 +262,7 @@ export function useApiService() {
 					isLoggedIn: false,
 				};
 			}
-		} catch (_) {
+		} catch (err) {
 			return {
 				user: null,
 				isLoggedIn: false,

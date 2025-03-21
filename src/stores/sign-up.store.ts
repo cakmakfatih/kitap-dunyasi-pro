@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import type { SignUpState } from "./sign-up.interface";
-import { computed, reactive, ref } from "vue";
-import {
-	emptyRegisterErrors,
-	type RegisterError,
-} from "@/services/api.service";
+import type {
+	SignUpActions,
+	SignUpGetters,
+	SignUpState,
+} from "./sign-up.interface";
+import { type RegisterError } from "@/services/api.service";
 
 const validateForm = (
 	name: string,
@@ -20,66 +20,65 @@ const validateForm = (
 	);
 };
 
-export const useSignUpStore = defineStore("sign-up", (): SignUpState => {
-	const name = ref<string>("");
-	const email = ref<string>("");
-	const password = ref<string>("");
-	const isAgreementAccepted = ref<boolean>(false);
-	const isLoading = ref<boolean>(false);
-	const error = reactive<RegisterError>(Object.assign({}, emptyRegisterErrors));
-
-	const isFormValid = computed(() =>
-		validateForm(
-			name.value,
-			email.value,
-			password.value,
-			isAgreementAccepted.value
-		)
-	);
-
-	function setIsLoading(l: boolean) {
-		isLoading.value = l;
-	}
-
-	function setError(e: RegisterError) {
-		error.hasErrors = e.hasErrors;
-		error.generalError = e.generalError;
-
-		error.fieldErrors = {
-			name: [...e.fieldErrors.name],
-			email: [...e.fieldErrors.email],
-			password: [...e.fieldErrors.password],
-		};
-	}
-
-	function resetError() {
-		error.generalError = "";
-		error.hasErrors = false;
-		error.fieldErrors = {
-			name: [],
-			email: [],
-			password: [],
-		};
-	}
-
-	function resetForm() {
-		name.value = "";
-		email.value = "";
-		password.value = "";
-		isAgreementAccepted.value = false;
-	}
-
-	return {
-		name,
-		email,
-		password,
-		error,
-		isAgreementAccepted,
-		isFormValid,
-		isLoading,
-		setIsLoading,
-		setError,
-		resetError,
-		resetForm,
-	};
+export const useSignUpStore = defineStore<
+	"sign-up",
+	SignUpState,
+	SignUpGetters,
+	SignUpActions
+>("sign-up", {
+	state: (): SignUpState => ({
+		name: "",
+		email: "",
+		password: "",
+		isAgreementAccepted: false,
+		isLoading: false,
+		error: {
+			hasErrors: false,
+			generalError: "",
+			fieldErrors: {
+				name: [],
+				email: [],
+				password: [],
+			},
+		},
+	}),
+	getters: {
+		isFormValid: (state: SignUpState): boolean => {
+			return validateForm(
+				state.name,
+				state.email,
+				state.password,
+				state.isAgreementAccepted
+			);
+		},
+	},
+	actions: {
+		setIsLoading(l: boolean) {
+			this.isLoading = l;
+		},
+		setError(e: RegisterError) {
+			this.error.generalError = e.generalError;
+			this.error.hasErrors = e.hasErrors;
+			this.error.fieldErrors = {
+				name: [...e.fieldErrors.name],
+				email: [...e.fieldErrors.email],
+				password: [...e.fieldErrors.password],
+			};
+		},
+		resetError() {
+			this.error.generalError = "";
+			this.error.hasErrors = false;
+			this.error.fieldErrors = {
+				name: [],
+				email: [],
+				password: [],
+			};
+		},
+		resetForm() {
+			this.name = "";
+			this.email = "";
+			this.password = "";
+			this.isAgreementAccepted = false;
+		},
+	},
 });

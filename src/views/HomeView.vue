@@ -10,6 +10,7 @@ const authStore = useAuthStore();
 const { isAuthenticated } = storeToRefs(authStore);
 
 const logout = (e: Event) => {
+	localStorage.removeItem("accessToken");
 	authStore.logout();
 };
 

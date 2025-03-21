@@ -1,5 +1,3 @@
-import type { Ref } from "vue";
-
 export interface User {
 	name: string;
 	email: string;
@@ -7,10 +5,17 @@ export interface User {
 }
 
 export interface AuthState {
-	user: Ref<User | null>;
-	isLoading: Ref<boolean>;
-	accessToken: Ref<string>;
-	isAuthenticated: Ref<boolean>;
+	user: User | null;
+	isLoading: boolean;
+	accessToken: string;
+	isAuthenticated: boolean;
+}
+
+export interface AuthGetters {
+	[key: string]: (state: AuthState) => any;
+}
+
+export interface AuthActions {
 	setSession: () => void;
 	setUser: (u: User | null, isLoggedIn: boolean) => void;
 	setToken: (token: string) => void;
