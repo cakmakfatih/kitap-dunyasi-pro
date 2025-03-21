@@ -17,6 +17,8 @@ watch(isAuthenticated, (state) => {
 });
 </script>
 <template>
-	<template v-if="!authStore.isLoading"><router-view></router-view></template>
+	<template v-if="!authStore.isLoading && !authStore.isAuthenticated"
+		><router-view></router-view
+	></template>
 	<template v-else></template>
 </template>

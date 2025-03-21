@@ -31,4 +31,21 @@
 .right {
 	flex: 1;
 }
+@media (max-width: 1200px) {
+	.left {
+		flex: 1;
+	}
+	.right {
+		flex: 1;
+	}
+}
+@media (max-width: 768px) {
+	.left {
+		display: none;
+		flex: 0;
+	}
+	.right {
+		align-self: center;
+	}
+}
 </style>

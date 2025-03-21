@@ -6,13 +6,11 @@ import Checkbox from "@/components/shared/Checkbox.vue";
 
 import { useSignUpStore } from "@/stores/sign-up.store";
 import { useAuthStore } from "@/stores/auth.store";
-import { watch } from "vue";
 import { useRouter } from "vue-router";
 import {
 	useApiService,
 	type RegisterUserResponse,
 } from "@/services/api.service";
-import { storeToRefs } from "pinia";
 
 const router = useRouter();
 
@@ -50,7 +48,7 @@ const register = async (e: Event) => {
 </script>
 
 <template>
-	<SplitLayout v-if="!authStore.isAuthenticated && !authStore.isLoading">
+	<SplitLayout>
 		<template #left>
 			<section class="left-pane">
 				<h1 class="logo-title">Kitap Dünyası Pro</h1>
@@ -107,34 +105,5 @@ const register = async (e: Event) => {
 			</form>
 		</template>
 	</SplitLayout>
-	<template v-else></template>
 </template>
-<style lang="css" scoped>
-.already-a-member {
-	text-align: center;
-	padding: 10px 10px;
-	text-decoration: underline;
-	cursor: pointer;
-	opacity: 0.4;
-	transition: opacity 0.15s;
-}
-.already-a-member:hover {
-	opacity: 0.8;
-}
-.already-a-member:active {
-	opacity: 0.4;
-}
-.left-pane {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	align-self: stretch;
-	flex: 1;
-	background-color: var(--color-primary);
-}
-.logo-title {
-	font-size: 38px;
-	font-weight: bold;
-}
-</style>
+<style lang="css" scoped></style>
