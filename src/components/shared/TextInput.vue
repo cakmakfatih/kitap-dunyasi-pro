@@ -50,6 +50,9 @@ const onInput = (event: Event) => {
 			:id="inputId"
 			v-bind="$attrs"
 		/>
+		<template v-for="(err, index) in errors" :key="index">
+			<span class="field-err">{{ err }}</span>
+		</template>
 	</div>
 </template>
 <style lang="css" scoped>
@@ -59,6 +62,12 @@ const onInput = (event: Event) => {
 	flex-direction: column;
 	align-items: stretch;
 	color: #424242;
+}
+.field-err {
+	font-size: 11pt;
+	color: #f44336;
+	padding: 2px 6px;
+	font-weight: 500;
 }
 label {
 	font-weight: 400;
@@ -79,6 +88,13 @@ input {
 	border-bottom: 1px solid #909090;
 	outline: none;
 	color: #424242;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s;
+	-webkit-background-clip: text;
 }
 </style>
 <script lang="ts">

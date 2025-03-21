@@ -27,7 +27,7 @@ export interface RegisterUserResponse {
 	error: RegisterError;
 }
 
-const emptyErrors: RegisterError = {
+export const emptyRegisterErrors: RegisterError = {
 	hasErrors: false,
 	generalError: "",
 	fieldErrors: {
@@ -51,7 +51,12 @@ async function registerUser({
 	const users: { [key: string]: User } = JSON.parse(existingUsersStr);
 	const emails: string[] = Object.values(users).map((i) => i.email);
 
-	const errors = { ...emptyErrors };
+	const errors = Object.assign({}, emptyRegisterErrors);
+	errors.hasErrors = false;
+	errors.generalError = "";
+	errors.fieldErrors.name = [];
+	errors.fieldErrors.email = [];
+	errors.fieldErrors.password = [];
 
 	if (emails.find((e) => e === email)) {
 		errors.hasErrors = true;

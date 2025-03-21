@@ -6,9 +6,12 @@ import Checkbox from "@/components/shared/Checkbox.vue";
 
 import { useSignUpStore } from "@/stores/sign-up.store";
 import { useAuthStore } from "@/stores/auth.store";
-import { watch, watchEffect } from "vue";
+import { watch } from "vue";
 import { useRouter } from "vue-router";
-import { useApiService } from "@/services/api.service";
+import {
+	useApiService,
+	type RegisterUserResponse,
+} from "@/services/api.service";
 import { storeToRefs } from "pinia";
 
 const router = useRouter();
@@ -23,6 +26,7 @@ authStore.setSession();
 const register = async (e: Event) => {
 	e.preventDefault();
 	store.setIsLoading(true);
+	store.resetError();
 
 	try {
 		const result = await apiService.register({
@@ -31,13 +35,19 @@ const register = async (e: Event) => {
 			password: store.password,
 		});
 
-		if (result.success) {
+		if (result.success && !result.error.hasErrors) {
+			store.resetForm();
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
 			router.replace("/");
+		} else {
+			store.setError(result.error);
 		}
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const errResponse = err as RegisterUserResponse;
+		store.setError(errResponse.error);
+	} finally {
+		store.setIsLoading(false);
 	}
 };
 
@@ -68,17 +78,28 @@ watch(isAuthenticated, (state) => {
 							paylaş!</span
 						>
 					</header>
-					<TextInput v-model="store.name" type="text" label="İsim" required />
+					<TextInput
+						v-model="store.name"
+						type="text"
+						label="İsim"
+						:errors="store.error.fieldErrors.name"
+						autocomplete="off"
+						required
+					/>
 					<TextInput
 						v-model="store.email"
 						type="email"
 						label="E-posta"
+						:errors="store.error.fieldErrors.email"
+						autocomplete="off"
 						required
 					/>
 					<TextInput
 						v-model="store.password"
 						type="password"
 						label="Şifre"
+						:errors="store.error.fieldErrors.password"
+						autocomplete="off"
 						required
 					/>
 					<Checkbox v-model="store.isAgreementAccepted"
@@ -117,6 +138,9 @@ watch(isAuthenticated, (state) => {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	align-self: stretch;
+	flex: 1;
+	background-color: var(--color-primary);
 }
 .logo-title {
 	font-size: 38px;
