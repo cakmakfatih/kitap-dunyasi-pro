@@ -12,7 +12,7 @@ export const useLoginStore = defineStore<
 	LoginGetters,
 	LoginActions
 >("login", {
-	state: (): LoginState => ({
+	state: () => ({
 		email: "",
 		password: "",
 		rememberMe: JSON.parse(localStorage.getItem("rememberMe") ?? "false"),

@@ -26,7 +26,7 @@ export const useSignUpStore = defineStore<
 	SignUpGetters,
 	SignUpActions
 >("sign-up", {
-	state: (): SignUpState => ({
+	state: () => ({
 		name: "",
 		email: "",
 		password: "",
