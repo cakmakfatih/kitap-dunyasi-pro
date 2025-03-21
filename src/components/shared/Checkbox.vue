@@ -1,5 +1,13 @@
 <script lang="ts" setup>
-import { useId } from "vue";
+import { useId, defineComponent } from "vue";
+
+interface Props {
+	modelValue: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+	modelValue: () => false,
+});
 
 const inpId = useId();
 const emit = defineEmits(["update:modelValue"]);
@@ -14,6 +22,7 @@ const onInput = (event: Event) => {
 		<input
 			@input="onInput"
 			:id="inpId"
+			:checked="modelValue"
 			type="checkbox"
 			style="align-self: flex-start"
 		/>
@@ -41,3 +50,8 @@ label {
 	user-select: none;
 }
 </style>
+<script lang="ts">
+export default defineComponent({
+	inheritAttrs: false,
+});
+</script>

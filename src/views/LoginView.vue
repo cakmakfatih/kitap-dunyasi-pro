@@ -27,7 +27,7 @@ const login = async (e: Event) => {
 	store.setIsLoading(true);
 	store.resetError();
 
-	if (rememberMe) {
+	if (rememberMe.value) {
 		localStorage.setItem("email", store.email);
 		localStorage.setItem("password", store.password);
 	} else {
