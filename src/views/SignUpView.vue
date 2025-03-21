@@ -94,6 +94,7 @@ const register = async (e: Event) => {
 					<Checkbox v-model="store.isAgreementAccepted"
 						>Üyelik sözleşmesini kabul ediyorum</Checkbox
 					>
+					<div style="height: 25px"></div>
 					<Button
 						:is-loading="store.isLoading"
 						:disabled="!store.isFormValid || store.isLoading"

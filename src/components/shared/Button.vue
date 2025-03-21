@@ -1,21 +1,32 @@
 <script lang="ts" setup>
 interface Props {
 	isLoading?: boolean;
+	isOutline?: boolean;
+	isRounded?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
 	isLoading: false,
+	isOutline: false,
+	isRounded: false,
 });
 </script>
 <template>
-	<button v-bind="$attrs">
+	<button
+		v-bind="$attrs"
+		:class="{
+			'is-outline': props.isOutline,
+			'is-rounded': props.isRounded,
+		}"
+	>
 		<span v-if="props.isLoading" class="loader"></span>
 		<slot></slot>
 	</button>
 </template>
 <style lang="css" scoped>
 button {
-	margin-top: 25px;
+	margin: 0px;
 	min-height: 50px;
+	min-width: 140px;
 	font-size: 14pt;
 	border-radius: 5px;
 	color: white;
@@ -38,6 +49,15 @@ button:active {
 button:disabled {
 	opacity: 0.3;
 	cursor: not-allowed;
+}
+.is-rounded {
+	border-radius: 50px;
+}
+.is-outline {
+	align-self: flex-end;
+	background-color: white;
+	border: 2px solid var(--color-primary);
+	color: var(--color-primary);
 }
 .loader {
 	width: 24px;

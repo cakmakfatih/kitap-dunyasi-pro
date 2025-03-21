@@ -120,6 +120,7 @@ watch(rememberMe, (state) => {
 						required
 					/>
 					<Checkbox v-model="store.rememberMe">Beni hatırla</Checkbox>
+					<div style="height: 25px"></div>
 					<Button
 						:is-loading="store.isLoading"
 						:disabled="!store.isFormValid || store.isLoading"
