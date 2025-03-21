@@ -25,10 +25,27 @@
 .left {
 	flex: 2;
 	background-size: cover;
-	background-color: #fdfaf6;
-	color: #424242;
+	background-color: var(--color-primary);
+	color: #fff;
 }
 .right {
 	flex: 1;
+}
+@media (max-width: 1200px) {
+	.left {
+		flex: 1;
+	}
+	.right {
+		flex: 1;
+	}
+}
+@media (max-width: 768px) {
+	.left {
+		display: none;
+		flex: 0;
+	}
+	.right {
+		align-self: center;
+	}
 }
 </style>

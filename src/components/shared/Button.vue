@@ -1,6 +1,14 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+interface Props {
+	isLoading?: boolean;
+}
+const props = withDefaults(defineProps<Props>(), {
+	isLoading: false,
+});
+</script>
 <template>
 	<button v-bind="$attrs">
+		<span v-if="props.isLoading" class="loader"></span>
 		<slot></slot>
 	</button>
 </template>
@@ -16,6 +24,9 @@ button {
 	background-color: var(--color-primary);
 	border: none;
 	transition: all 0.15s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 button:hover {
 	opacity: 0.6;
@@ -27,5 +38,25 @@ button:active {
 button:disabled {
 	opacity: 0.3;
 	cursor: not-allowed;
+}
+.loader {
+	width: 24px;
+	height: 24px;
+	border: 5px solid #fff;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	margin-right: 10px;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 </style>

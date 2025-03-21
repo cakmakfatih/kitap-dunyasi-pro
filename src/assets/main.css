@@ -28,3 +28,31 @@
 	font-size: 19px;
 	opacity: 0.54;
 }
+.text-link {
+	color: var(--color-text);
+	text-align: center;
+	padding: 10px 10px;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.4;
+	transition: opacity 0.15s;
+}
+.text-link:hover {
+	opacity: 0.8;
+}
+.text-link:active {
+	opacity: 0.4;
+}
+.left-pane {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	align-self: stretch;
+	flex: 1;
+	background-color: var(--color-primary);
+}
+.logo-title {
+	font-size: 38px;
+	font-weight: bold;
+}
