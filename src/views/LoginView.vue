@@ -152,8 +152,8 @@ watch(rememberMe, (state) => {
 .logo-subtitle {
 	font-size: 24pt;
 	text-align: center;
-	font-weight: 300;
-	opacity: 1;
+	font-weight: 400;
+	opacity: 0.4;
 }
 .pane-content > button {
 	min-width: 200px;

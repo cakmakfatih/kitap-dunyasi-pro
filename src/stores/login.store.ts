@@ -57,7 +57,6 @@ export const useLoginStore = defineStore<
 		resetForm() {
 			this.email = "";
 			this.password = "";
-			this.rememberMe = false;
 		},
 		setRememberMe(r: boolean) {
 			this.rememberMe = r;
