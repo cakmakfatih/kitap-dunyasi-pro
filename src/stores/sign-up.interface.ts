@@ -6,4 +6,6 @@ export interface SignUpState {
 	password: Ref<string>;
 	isAgreementAccepted: Ref<boolean>;
 	isFormValid: ComputedRef<boolean>;
+	isLoading: Ref<boolean>;
+	setIsLoading: (l: boolean) => void;
 }

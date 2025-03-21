@@ -4,22 +4,54 @@ import Button from "@/components/shared/Button.vue";
 import TextInput from "@/components/shared/TextInput.vue";
 import Checkbox from "@/components/shared/Checkbox.vue";
 
-import Logo from "@/assets/logo.png";
-
 import { useSignUpStore } from "@/stores/sign-up.store";
+import { useAuthStore } from "@/stores/auth.store";
+import { watch, watchEffect } from "vue";
+import { useRouter } from "vue-router";
+import { useApiService } from "@/services/api.service";
+import { storeToRefs } from "pinia";
+
+const router = useRouter();
 
 const store = useSignUpStore();
+const authStore = useAuthStore();
+const apiService = useApiService();
 
-const onSubmit = (e: Event) => {
+const { isAuthenticated } = storeToRefs(authStore);
+authStore.setSession();
+
+const register = async (e: Event) => {
 	e.preventDefault();
+	store.setIsLoading(true);
+
+	try {
+		const result = await apiService.register({
+			name: store.name,
+			email: store.email,
+			password: store.password,
+		});
+
+		if (result.success) {
+			authStore.setToken(result.token ?? "");
+			authStore.setSession();
+			router.replace("/");
+		}
+	} catch (e) {
+		console.log(e);
+	}
 };
+
+watch(isAuthenticated, (state) => {
+	if (state) {
+		router.push({ name: "home", replace: true });
+	}
+});
 </script>
 
 <template>
-	<SplitLayout>
+	<SplitLayout v-if="!authStore.isAuthenticated && !authStore.isLoading">
 		<template #left>
 			<section class="left-pane">
-				<img :src="Logo" width="196px" alt="" />
 				<h1 class="logo-title">Kitap Dünyası Pro</h1>
 				<span class="form-subtitle"
 					>İstediğin kitabı bul, ekle, takip et, arkadaşlarınla paylaş!</span
@@ -27,7 +59,7 @@ const onSubmit = (e: Event) => {
 			</section>
 		</template>
 		<template #right>
-			<form @submit="onSubmit" class="form-wrapper">
+			<form @submit="register" class="form-wrapper">
 				<div class="form">
 					<header class="form-header">
 						<h1 class="form-title">Kayıt Ol</h1>
@@ -52,12 +84,18 @@ const onSubmit = (e: Event) => {
 					<Checkbox v-model="store.isAgreementAccepted"
 						>Üyelik sözleşmesini kabul ediyorum</Checkbox
 					>
-					<Button :disabled="!store.isFormValid" type="submit">Kayıt Ol</Button>
+					<Button
+						:is-loading="store.isLoading"
+						:disabled="!store.isFormValid || store.isLoading"
+						type="submit"
+						>Kayıt Ol</Button
+					>
 					<span class="already-a-member">Zaten üye misin? Giriş yap.</span>
 				</div>
 			</form>
 		</template>
 	</SplitLayout>
+	<template v-else></template>
 </template>
 <style lang="css" scoped>
 .already-a-member {
@@ -83,6 +121,5 @@ const onSubmit = (e: Event) => {
 .logo-title {
 	font-size: 38px;
 	font-weight: bold;
-	color: var(--color-primary);
 }
 </style>

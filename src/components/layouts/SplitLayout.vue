@@ -25,8 +25,8 @@
 .left {
 	flex: 2;
 	background-size: cover;
-	background-color: #fdfaf6;
-	color: #424242;
+	background-color: var(--color-primary);
+	color: #fff;
 }
 .right {
 	flex: 1;

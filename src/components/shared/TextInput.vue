@@ -4,8 +4,13 @@ import { computed, defineComponent, ref, useId } from "vue";
 interface Props {
 	label: string;
 	modelValue: string;
+	errors?: string[];
 }
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+	label: () => "",
+	modelValue: () => "",
+	errors: () => [],
+});
 
 const inputId = useId();
 const isFocused = ref<boolean>(false);

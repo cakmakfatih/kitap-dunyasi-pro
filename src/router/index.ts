@@ -1,12 +1,13 @@
 import { useApiService } from "@/services/api.service";
+import { useAuthStore } from "@/stores/auth.store";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
-			path: "/login",
-			name: "login",
+			path: "/sign-in",
+			name: "sign-in",
 			component: () => import("@/views/LoginView.vue"),
 		},
 		{
@@ -17,7 +18,7 @@ const router = createRouter({
 		{
 			path: "/",
 			name: "home",
-			component: () => import("@/views/LoginView.vue"),
+			component: () => import("@/views/HomeView.vue"),
 			meta: {
 				requiresAuth: true,
 			},
@@ -26,11 +27,14 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-	const { isAuthenticated } = useApiService();
+	const api = useApiService();
+	const { accessToken, setUser } = useAuthStore();
 
 	if (to.meta.requiresAuth) {
-		const auth = await isAuthenticated();
-		if (auth) {
+		const { user, isLoggedIn } = await api.getSession(accessToken);
+		setUser(user, isLoggedIn);
+
+		if (isLoggedIn) {
 			next();
 		} else {
 			next({ name: "sign-up", replace: true });

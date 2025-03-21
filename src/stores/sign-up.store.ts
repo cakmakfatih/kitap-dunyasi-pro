@@ -21,6 +21,7 @@ export const useSignUpStore = defineStore("sign-up", (): SignUpState => {
 	const email = ref<string>("");
 	const password = ref<string>("");
 	const isAgreementAccepted = ref<boolean>(false);
+	const isLoading = ref<boolean>(false);
 
 	const isFormValid = computed(() =>
 		validateForm(
@@ -31,11 +32,17 @@ export const useSignUpStore = defineStore("sign-up", (): SignUpState => {
 		)
 	);
 
+	function setIsLoading(l: boolean) {
+		isLoading.value = l;
+	}
+
 	return {
 		name,
 		email,
 		password,
 		isAgreementAccepted,
 		isFormValid,
+		isLoading,
+		setIsLoading,
 	};
 });

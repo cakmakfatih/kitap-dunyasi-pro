@@ -3,5 +3,7 @@ import MainLayout from "@/components/layouts/MainLayout.vue";
 </script>
 
 <template>
-  <MainLayout>test</MainLayout>
+	<MainLayout>
+		
+	</MainLayout>
 </template>
