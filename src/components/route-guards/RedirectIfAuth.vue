@@ -17,8 +17,21 @@ watch(isAuthenticated, (state) => {
 });
 </script>
 <template>
-	<template v-if="!authStore.isLoading && !authStore.isAuthenticated"
-		><router-view></router-view
-	></template>
-	<template v-else></template>
+	<div>
+		<template v-if="!authStore.isLoading && !authStore.isAuthenticated">
+			<RouterView v-slot="{ Component }">
+				<Transition name="fade" mode="out-in">
+					<Component :is="Component" />
+				</Transition>
+			</RouterView>
+		</template>
+		<template v-else></template>
+	</div>
 </template>
+<style lang="css" scoped>
+div {
+	flex: 1;
+	align-self: stretch;
+	display: flex;
+}
+</style>

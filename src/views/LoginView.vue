@@ -89,6 +89,7 @@ watch(rememberMe, (state) => {
 					<span class="form-subtitle logo-subtitle outlined-text-shadow"
 						>İstediğin kitabı bul, ekle, takip et, arkadaşlarınla paylaş!</span
 					>
+					<div style="height: 25px"></div>
 					<Button>Daha Fazla</Button>
 				</div>
 			</section>
