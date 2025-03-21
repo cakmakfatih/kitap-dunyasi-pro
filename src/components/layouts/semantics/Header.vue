@@ -18,7 +18,7 @@ const logout = (e: Event) => {
 			</section>
 			<section>
 				<Button @click="logout" :is-outline="true" :is-rounded="true"
-					>Logout</Button
+					>Çıkış Yap</Button
 				>
 			</section>
 		</div>

@@ -27,6 +27,7 @@ button {
 	margin: 0px;
 	min-height: 50px;
 	min-width: 140px;
+	padding: 0px 30px;
 	font-size: 14pt;
 	border-radius: 5px;
 	color: white;
@@ -54,10 +55,17 @@ button:disabled {
 	border-radius: 50px;
 }
 .is-outline {
-	align-self: flex-end;
-	background-color: white;
+	background-color: transparent;
 	border: 2px solid var(--color-primary);
 	color: var(--color-primary);
+}
+.is-outline:hover {
+	opacity: 0.7;
+	background-color: white;
+}
+.is-outline:active {
+	opacity: 0.4;
+	background-color: white;
 }
 .loader {
 	width: 24px;

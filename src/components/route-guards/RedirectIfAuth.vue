@@ -8,11 +8,16 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const { isAuthenticated } = storeToRefs(authStore);
+
+if (isAuthenticated) {
+	router.replace({ path: "/" });
+}
+
 authStore.setSession();
 
 watch(isAuthenticated, (state) => {
 	if (state) {
-		router.push({ name: "home", replace: true });
+		router.replace({ path: "/" });
 	}
 });
 </script>

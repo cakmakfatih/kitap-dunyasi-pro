@@ -34,7 +34,7 @@ const register = async (e: Event) => {
 			store.resetForm();
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
-			router.push({ name: "home", replace: true });
+			router.replace({ path: "/" });
 		} else {
 			store.setError(result.error);
 		}

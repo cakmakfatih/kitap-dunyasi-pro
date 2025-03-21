@@ -13,7 +13,7 @@ const { isAuthenticated } = storeToRefs(authStore);
 
 watch(isAuthenticated, (state) => {
 	if (!state) {
-		router.push({ path: "/sign-up", replace: true });
+		router.replace({ path: "/sign-up" });
 	}
 });
 </script>
