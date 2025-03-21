@@ -6,11 +6,11 @@ import Checkbox from "@/components/shared/Checkbox.vue";
 
 import BgLogin from "@/assets/bg-login.jpg";
 
-import { useLoginStore } from "@/stores/login.store";
+import { useLoginStore } from "@/stores/login/login.store";
 import { onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useApiService, type LoginUserResponse } from "@/services/api.service";
-import { useAuthStore } from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth/auth.store";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -43,7 +43,7 @@ const login = async (e: Event) => {
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
 			store.resetForm();
-			router.push({ path: "/", replace: true });
+			router.push({ name: "home", replace: true });
 		} else {
 			store.setError(result.error);
 		}

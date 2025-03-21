@@ -1,5 +1,5 @@
 import { useApiService } from "@/services/api.service";
-import { useAuthStore } from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth/auth.store";
 import { createRouter, createWebHistory } from "vue-router";
 import RedirectIfAuth from "@/components/route-guards/RedirectIfAuth.vue";
 
@@ -12,8 +12,8 @@ const router = createRouter({
 			component: RedirectIfAuth,
 			children: [
 				{
-					name: "sign-in-child",
 					path: "",
+					name: "sign-in.1",
 					component: () => import("@/views/LoginView.vue"),
 				},
 			],
@@ -24,8 +24,8 @@ const router = createRouter({
 			component: RedirectIfAuth,
 			children: [
 				{
-					name: "sign-up-child",
 					path: "",
+					name: "sign-up.1",
 					component: () => import("@/views/SignUpView.vue"),
 				},
 			],
@@ -52,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
 		if (isLoggedIn) {
 			next();
 		} else {
-			next({ name: "sign-up", replace: true });
+			next({ name: "sign-up.1", replace: true });
 		}
 	} else {
 		next();

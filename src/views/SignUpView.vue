@@ -4,8 +4,8 @@ import Button from "@/components/shared/Button.vue";
 import TextInput from "@/components/shared/TextInput.vue";
 import Checkbox from "@/components/shared/Checkbox.vue";
 
-import { useSignUpStore } from "@/stores/sign-up.store";
-import { useAuthStore } from "@/stores/auth.store";
+import { useSignUpStore } from "@/stores/sign-up/sign-up.store";
+import { useAuthStore } from "@/stores/auth/auth.store";
 import { useRouter } from "vue-router";
 import {
 	useApiService,
@@ -34,7 +34,7 @@ const register = async (e: Event) => {
 			store.resetForm();
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
-			router.push({ path: "/", replace: true });
+			router.push({ name: "home", replace: true });
 		} else {
 			store.setError(result.error);
 		}

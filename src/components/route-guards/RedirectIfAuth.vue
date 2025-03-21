@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAuthStore } from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth/auth.store";
 import { storeToRefs } from "pinia";
 import { watch } from "vue";
 import { useRouter } from "vue-router";

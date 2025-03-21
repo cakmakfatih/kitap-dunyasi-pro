@@ -1,4 +1,4 @@
-import type { User } from "@/stores/auth.interface";
+import type { User } from "@/stores/auth/auth.interface";
 import type {
 	AxiosRequestConfig,
 	AxiosRequestHeaders,
