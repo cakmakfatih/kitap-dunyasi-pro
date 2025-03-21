@@ -26,7 +26,7 @@
 }
 .form-subtitle {
 	font-size: 19px;
-	opacity: 0.54;
+	opacity: 0.84;
 }
 .text-link {
 	color: var(--color-text);
@@ -34,11 +34,11 @@
 	padding: 10px 10px;
 	text-decoration: none;
 	cursor: pointer;
-	opacity: 0.4;
+	opacity: 0.84;
 	transition: opacity 0.15s;
 }
 .text-link:hover {
-	opacity: 0.8;
+	opacity: 0.57;
 }
 .text-link:active {
 	opacity: 0.4;
