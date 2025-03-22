@@ -1,3 +1,4 @@
+import storage from "@/lib/storage";
 import type { User } from "@/stores/auth/auth.interface";
 import type { AxiosRequestHeaders, AxiosResponse } from "axios";
 
@@ -42,9 +43,7 @@ async function registerUser({
 	email: string;
 	password: string;
 }): Promise<AxiosResponse<RegisterUserResponse>> {
-	const existingUsersStr = localStorage.getItem("users") ?? "[]";
-
-	const users: { [key: string]: User } = JSON.parse(existingUsersStr);
+	const users: { [key: string]: User } = storage.get("users") ?? [];
 	const emails: string[] = Object.values(users).map((i) => i.email);
 
 	const errors = Object.assign({}, emptyErrors);
@@ -86,11 +85,7 @@ async function registerUser({
 	};
 
 	const token = createMockToken();
-	localStorage.setItem(
-		"users",
-		JSON.stringify({ ...users, [token]: { ...user } })
-	);
-	localStorage.setItem("accessToken", token);
+	storage.set("users", { ...users, [token]: { ...user } });
 
 	const response: AxiosResponse<RegisterUserResponse> = {
 		data: {
@@ -124,9 +119,7 @@ function createMockToken(): string {
 }
 
 function decodeToken(token: string): User | null {
-	const users: { [key: string]: User } = JSON.parse(
-		localStorage.getItem("users") || "{}"
-	);
+	const users: { [key: string]: User } = storage.get("users") || {};
 
 	if (Object.keys(users).find((i) => i === token)) {
 		return { ...users[token] };
@@ -196,9 +189,7 @@ export function useApiService() {
 				errors.fieldErrors.name = [];
 				errors.fieldErrors.email = [];
 				errors.fieldErrors.password = [];
-				const users: { [key: string]: User } = JSON.parse(
-					localStorage.getItem("users") ?? "[]"
-				);
+				const users: { [key: string]: User } = storage.get("users") || {};
 				const userKeys = Object.keys(users);
 				const userValues = Object.values(users);
 
@@ -206,7 +197,6 @@ export function useApiService() {
 					(u) => u.email === email && u.password === password
 				);
 				if (userIdx !== -1) {
-					localStorage.setItem("accessToken", userKeys[userIdx]);
 					resolve({
 						success: true,
 						token: userKeys[userIdx],

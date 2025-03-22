@@ -8,11 +8,11 @@ import Logo from "@/components/shared/Logo.vue";
 import BgLogin from "@/assets/bg-login.jpg";
 
 import { useLoginStore } from "@/stores/login/login.store";
-import { onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useApiService, type LoginUserResponse } from "@/services/api.service";
 import { useAuthStore } from "@/stores/auth/auth.store";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
 
 const router = useRouter();
 
@@ -22,20 +22,16 @@ const authStore = useAuthStore();
 
 const { rememberMe } = storeToRefs(store);
 
+if (!rememberMe.value) {
+	store.setEmail("");
+	store.setPassword("");
+}
+
 const login = async (e: Event) => {
 	e.preventDefault();
 
 	store.setIsLoading(true);
 	store.resetError();
-
-	if (rememberMe.value) {
-		localStorage.setItem("email", store.email);
-		localStorage.setItem("password", store.password);
-	} else {
-		localStorage.removeItem("rememberMe");
-		localStorage.removeItem("email");
-		localStorage.removeItem("password");
-	}
 
 	try {
 		const result = await apiService.login(store.email, store.password);
@@ -43,7 +39,11 @@ const login = async (e: Event) => {
 		if (result.success && !result.error.hasErrors) {
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
-			store.resetForm();
+
+			if (!rememberMe.value) {
+				store.resetForm();
+			}
+
 			router.replace({ path: "/" });
 		} else {
 			store.setError(result.error);
@@ -62,23 +62,6 @@ const bgStyle = {
 	backgroundRepeat: "no-repeat",
 	backgroundPosition: "center",
 };
-
-onMounted(() => {
-	if (rememberMe) {
-		store.setEmail(localStorage.getItem("email") ?? "");
-		store.setPassword(localStorage.getItem("password") ?? "");
-	}
-});
-
-watch(rememberMe, (state) => {
-	if (state) {
-		localStorage.setItem("rememberMe", JSON.stringify(true));
-	} else {
-		localStorage.removeItem("rememberMe");
-		localStorage.removeItem("email");
-		localStorage.removeItem("password");
-	}
-});
 </script>
 
 <template>

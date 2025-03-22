@@ -9,7 +9,7 @@ const authStore = useAuthStore();
 
 const { isAuthenticated } = storeToRefs(authStore);
 
-if (isAuthenticated) {
+if (isAuthenticated.value) {
 	router.replace({ path: "/" });
 }
 

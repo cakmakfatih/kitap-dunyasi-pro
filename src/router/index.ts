@@ -42,8 +42,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-	const api = useApiService();
 	const { accessToken, setUser } = useAuthStore();
+	const api = useApiService();
 
 	if (to.meta.requiresAuth) {
 		const { user, isLoggedIn } = await api.getSession(accessToken);

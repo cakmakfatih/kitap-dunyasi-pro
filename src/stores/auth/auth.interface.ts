@@ -1,23 +1,25 @@
+import type { Ref } from "vue";
+
 export interface User {
 	name: string;
 	email: string;
 	password: string;
 }
 
-export interface AuthState {
-	user: User | null;
-	isLoading: boolean;
-	accessToken: string;
-	isAuthenticated: boolean;
+interface AuthState {
+	user: Ref<User | null>;
+	isLoading: Ref<boolean>;
+	accessToken: Ref<string>;
+	isAuthenticated: Ref<boolean>;
 }
 
-export interface AuthGetters {
-	[key: string]: (state: AuthState) => any;
-}
+interface AuthGetters {}
 
-export interface AuthActions {
+interface AuthActions {
 	setSession: () => void;
 	setUser: (u: User | null, isLoggedIn: boolean) => void;
 	setToken: (token: string) => void;
 	logout: () => void;
 }
+
+export type AuthStore = AuthState & AuthGetters & AuthActions;
