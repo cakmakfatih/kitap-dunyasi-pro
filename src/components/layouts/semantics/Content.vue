@@ -4,7 +4,6 @@
 </template>
 <style lang="css" scoped>
 main {
-	flex: 1;
 	align-self: stretch;
 	background-color: #fff;
 	display: flex;

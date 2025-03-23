@@ -32,6 +32,7 @@ header {
 	align-items: stretch;
 	justify-content: center;
 	user-select: none;
+	background-color: white;
 }
 .content {
 	width: 1800px;

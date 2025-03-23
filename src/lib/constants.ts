@@ -1,11 +1,14 @@
-interface OpenLibraryCategory {
+export interface OpenLibraryCategory {
+	value: string;
 	category: string;
 	values: string[];
+	translations: string[];
 }
 
 export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	{
-		category: "Art",
+		value: "Art",
+		category: "Sanat",
 		values: [
 			"Architecture",
 			"Art Instruction",
@@ -20,13 +23,36 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"Painting",
 			"Photography",
 		],
+		translations: [
+			"Mimarlık",
+			"Sanat Eğitimi",
+			"Sanat Tarihi",
+			"Dans",
+			"Tasarım",
+			"Moda",
+			"Film",
+			"Grafik Tasarım",
+			"Müzik",
+			"Müzik Teorisi",
+			"Resim",
+			"Fotoğrafçılık",
+		],
 	},
 	{
-		category: "Animals",
+		value: "Animals",
+		category: "Hayvanlar",
 		values: ["Bears", "Cats", "Kittens", "Dogs", "Puppies"],
+		translations: [
+			"Ayılar",
+			"Kediler",
+			"Yavrular",
+			"Köpekler",
+			"Yavru Köpekler",
+		],
 	},
 	{
-		category: "Fiction",
+		value: "Fiction",
+		category: "Kurgu",
 		values: [
 			"Fantasy",
 			"Historical Fiction",
@@ -43,13 +69,32 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"Thriller",
 			"Young Adult",
 		],
+		translations: [
+			"Fantastik",
+			"Tarihi Kurgu",
+			"Korku",
+			"Komedi",
+			"Edebiyat",
+			"Büyü",
+			"Gizem ve dedektif hikayeleri",
+			"Oyunlar",
+			"Şiir",
+			"Aşk",
+			"Bilim Kurgu",
+			"Kısa Hikayeler",
+			"Gerilim",
+			"Genç Yetişkin",
+		],
 	},
 	{
-		category: "Science & Mathematics",
+		value: "Science & Mathematics",
+		category: "Bilim ve Matematik",
 		values: ["Biology", "Chemistry", "Mathematics", "Physics", "Programming"],
+		translations: ["Biyoloji", "Kimya", "Matematik", "Fizik", "Programlama"],
 	},
 	{
-		category: "Business & Finance",
+		value: "Business & Finance",
+		category: "İş ve Finans",
 		values: [
 			"Management",
 			"Entrepreneurship",
@@ -57,9 +102,17 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"Business Success",
 			"Finance",
 		],
+		translations: [
+			"Yönetim",
+			"Girişimcilik",
+			"İş Ekonomisi",
+			"İş Başarısı",
+			"Finans",
+		],
 	},
 	{
-		category: "Children's",
+		value: "Children's",
+		category: "Çocuk Kitapları",
 		values: [
 			"Kids Books",
 			"Stories in Rhyme",
@@ -67,9 +120,17 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"Bedtime Books",
 			"Picture Books",
 		],
+		translations: [
+			"Çocuk Kitapları",
+			"Kafiye Hikayeler",
+			"Bebek Kitapları",
+			"Uyku Öncesi Kitaplar",
+			"Resimli Kitaplar",
+		],
 	},
 	{
-		category: "History",
+		value: "History",
+		category: "Tarih",
 		values: [
 			"Ancient Civilization",
 			"Archaeology",
@@ -77,9 +138,17 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"World War II",
 			"Social Life and Customs",
 		],
+		translations: [
+			"Antik Medeniyet",
+			"Arkeoloji",
+			"Antropoloji",
+			"İkinci Dünya Savaşı",
+			"Sosyal Hayat ve Gelenekler",
+		],
 	},
 	{
-		category: "Health & Wellness",
+		value: "Health & Wellness",
+		category: "Sağlık ve Zindelik",
 		values: [
 			"Cooking",
 			"Cookbooks",
@@ -88,9 +157,18 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"Nutrition",
 			"Self-help",
 		],
+		translations: [
+			"Yemek Pişirme",
+			"Yemek Kitapları",
+			"Zihinsel Sağlık",
+			"Egzersiz",
+			"Beslenme",
+			"Kişisel Gelişim",
+		],
 	},
 	{
-		category: "Biography",
+		value: "Biography",
+		category: "Biyografi",
 		values: [
 			"Autobiographies",
 			"History",
@@ -105,13 +183,35 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"Political Science",
 			"Psychology",
 		],
+		translations: [
+			"Otomobiyografiler",
+			"Tarih",
+			"Politika ve Hükümet",
+			"İkinci Dünya Savaşı",
+			"Kadınlar",
+			"Krallar ve Hükümdarlar",
+			"Besteciler",
+			"Sanatçılar",
+			"Antropoloji",
+			"Din",
+			"Siyaset Bilimi",
+			"Psikoloji",
+		],
 	},
 	{
-		category: "Places",
+		value: "Places",
+		category: "Yerler",
 		values: ["Brazil", "India", "Indonesia", "United States"],
+		translations: [
+			"Brezilya",
+			"Hindistan",
+			"Endonezya",
+			"Amerika Birleşik Devletleri",
+		],
 	},
 	{
-		category: "Textbooks",
+		value: "Textbooks",
+		category: "Ders Kitapları",
 		values: [
 			"History",
 			"Mathematics",
@@ -125,6 +225,20 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 			"English Language",
 			"Physics",
 			"Computer Science",
+		],
+		translations: [
+			"Tarih",
+			"Matematik",
+			"Coğrafya",
+			"Psikoloji",
+			"Cebir",
+			"Eğitim",
+			"İş ve Ekonomi",
+			"Bilim",
+			"Kimya",
+			"İngilizce",
+			"Fizik",
+			"Bilgisayar Bilimi",
 		],
 	},
 ];

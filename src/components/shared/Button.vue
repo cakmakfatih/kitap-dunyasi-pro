@@ -5,9 +5,9 @@ interface Props {
 	isRounded?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
-	isLoading: false,
-	isOutline: false,
-	isRounded: false,
+	isLoading: () => false,
+	isOutline: () => false,
+	isRounded: () => false,
 });
 </script>
 <template>
@@ -56,7 +56,7 @@ button:disabled {
 }
 .is-outline {
 	background-color: transparent;
-	border: 2px solid var(--color-primary);
+	border: 1px solid var(--color-primary);
 	color: var(--color-primary);
 }
 .is-outline:hover {
