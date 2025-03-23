@@ -3,6 +3,7 @@ export interface OpenLibraryCategory {
 	name: string;
 	values: string[];
 	translations: string[];
+	to?: string;
 }
 
 export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
@@ -11,6 +12,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 		name: "Genel",
 		values: [],
 		translations: [],
+		to: "",
 	},
 	{
 		value: "Art",

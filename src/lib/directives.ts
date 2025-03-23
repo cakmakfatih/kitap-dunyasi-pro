@@ -4,8 +4,7 @@ const disallowBubbling = (e: Event) => {
 	e.stopPropagation();
 };
 
-const rotate = (e: Event, rotateNum: number, el: HTMLElement) => {
-	e.preventDefault();
+const rotate = (rotateNum: number, el: HTMLElement) => {
 	const isRotated = JSON.parse(el.getAttribute("is-rotated") ?? "false");
 	if (isRotated) {
 		rotateNum = 0;
@@ -15,8 +14,7 @@ const rotate = (e: Event, rotateNum: number, el: HTMLElement) => {
 	el.setAttribute("is-rotated", JSON.stringify(!isRotated));
 };
 
-const expand = (e: Event, el: HTMLElement) => {
-	e.preventDefault();
+const expand = (el: HTMLElement) => {
 	const isExpanded = JSON.parse(el.getAttribute("is-expanded") || "false");
 
 	if (!isExpanded) {
@@ -24,7 +22,7 @@ const expand = (e: Event, el: HTMLElement) => {
 		const totalHeight = childrenElements.reduce((total, child) => {
 			const rect = child.getBoundingClientRect();
 			return total + rect.height;
-		  }, 0);
+		}, 0);
 		el.style.maxHeight = totalHeight + "px";
 		el.classList.add("expanded");
 	} else {
@@ -45,7 +43,7 @@ export const vClickRotateInnerIcon: Directive<HTMLElement, number> = {
 		svgEl.setAttribute("is-rotated", JSON.stringify(false));
 		svgEl.classList.add("v-rotator");
 
-		el.addEventListener("click", (e) => rotate(e, binding.value, svgEl));
+		el.addEventListener("click", () => rotate(binding.value, svgEl));
 	},
 	beforeUnmount(el, binding) {
 		if (binding.value === 0) {
@@ -53,14 +51,20 @@ export const vClickRotateInnerIcon: Directive<HTMLElement, number> = {
 		}
 
 		const svgEl = el.querySelector("svg")! as unknown as HTMLElement;
-		el.removeEventListener("click", (e) => rotate(e, binding.value, svgEl));
+		el.removeEventListener("click", () => rotate(binding.value, svgEl));
 	},
 };
 
 export const vExpandable: Directive<HTMLElement, void> = {
 	mounted(el) {
-		const expandable = el.querySelector("[is-expanded]") as HTMLElement;
-		el.addEventListener("click", (e) => expand(e, expandable));
+		const expandable = el.querySelector("[expandable]") as HTMLElement;
+		const isExpandedNow = JSON.parse(
+			expandable.getAttribute("is-expanded") ?? "false"
+		);
+
+		expandable.setAttribute("is-expanded", isExpandedNow);
+
+		el.addEventListener("click", () => expand(expandable));
 		expandable.style.maxHeight = "0px";
 		expandable.addEventListener("click", (e) => disallowBubbling(e));
 		expandable.classList.add("expandable");
@@ -69,6 +73,6 @@ export const vExpandable: Directive<HTMLElement, void> = {
 		const expandable = el.querySelector("[is-expanded]") as HTMLElement;
 		expandable.classList.add("expandable");
 		expandable.removeEventListener("click", (e) => disallowBubbling(e));
-		el.removeEventListener("click", (e) => expand(e, expandable));
+		el.removeEventListener("click", () => expand(expandable));
 	},
 };

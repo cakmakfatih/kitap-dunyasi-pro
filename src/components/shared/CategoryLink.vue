@@ -15,26 +15,39 @@ const rotateVal = computed(() => (hasValues.value ? 90 : 0));
 const iconName = computed<IconName>(() =>
 	hasValues.value ? "chevron-right" : "home"
 );
+const categoryRoute = computed(() =>
+	props.category.to === undefined
+		? "categories/" + props.category.name.toLowerCase() + "/all"
+		: props.category.to
+);
 </script>
 <template>
-	<li class="category-link" v-expandable>
+	<RouterLink
+		exactActiveClass="active"
+		:to="categoryRoute"
+		class="category-link"
+		v-expandable
+	>
 		<div class="category-title" v-click-rotate-inner-icon="rotateVal">
 			<Icon :iconName="iconName" />
 			<span>{{ props.category.name }}</span>
 		</div>
 		<ul
 			:class="{ 'category-values': true, 'no-margin-vertical': !hasValues }"
-			is-expanded="false"
+			expandable
 		>
-			<li class="category-value" v-if="hasValues">Hepsi</li>
-			<li
+			<RouterLink :to="categoryRoute" class="category-value" v-if="hasValues"
+				>Hepsi</RouterLink
+			>
+			<RouterLink
 				class="category-value"
 				v-for="(value, index) in props.category.translations"
+				:to="categoryRoute + '/' + props.category.values[index]"
 				:key="index"
-				>{{ value }}</li
+				>{{ value }}</RouterLink
 			>
 		</ul>
-	</li>
+	</RouterLink>
 </template>
 <style lang="css" scoped>
 .category-link {
@@ -42,22 +55,24 @@ const iconName = computed<IconName>(() =>
 	flex-direction: column;
 	align-items: stretch;
 	border-bottom: 1px solid #d9d9d9;
+	text-decoration: none;
+	color: #424242;
+	transition: background-color 0.175s;
 }
 .category-title {
 	user-select: none;
 	padding: 10px 20px;
 	display: flex;
 	align-items: center;
-	transition: background-color 0.175s;
 	cursor: pointer;
 }
 .category-title > span {
 	margin-left: 10px;
 }
-.category-title:not(.active):hover {
+.category-link:not(.active):hover {
 	background-color: #eee;
 }
-.category-title:not(.active):active {
+.category-link:not(.active):active {
 	background-color: #ddd;
 }
 .category-title:last-child {
@@ -88,6 +103,8 @@ const iconName = computed<IconName>(() =>
 	margin-right: 15px;
 	transition: background-color 0.175s;
 	cursor: pointer;
+	text-decoration: none;
+	color: #424242;
 }
 .category-value:last-child {
 	margin-bottom: 10px;
@@ -97,5 +114,12 @@ const iconName = computed<IconName>(() =>
 }
 .category-value:active {
 	background-color: #d5d5d5;
+}
+.category-link.active {
+	background-color: #23202a;
+	color: white;
+}
+.category-link.active > .category-title {
+	cursor: default !important;
 }
 </style>
