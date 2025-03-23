@@ -150,7 +150,7 @@ async function mockAuthCheck(token: string): Promise<AxiosResponse<boolean>> {
 	return Promise.reject(false);
 }
 
-export function useApiService() {
+export const useApiService = () => {
 	const register = async ({
 		name,
 		email,
@@ -271,4 +271,4 @@ export function useApiService() {
 		register,
 		login,
 	};
-}
+};
