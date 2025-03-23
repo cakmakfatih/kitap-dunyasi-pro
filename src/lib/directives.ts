@@ -1,4 +1,4 @@
-import { type Directive, type VNode } from "vue";
+import { type Directive } from "vue";
 
 const rotate = (rotateNum: number, el: HTMLElement) => {
 	const isRotated = JSON.parse(el.getAttribute("is-rotated") ?? "false");
@@ -12,14 +12,22 @@ const rotate = (rotateNum: number, el: HTMLElement) => {
 
 export const vClickRotateInnerIcon: Directive<HTMLElement, number> = {
 	mounted(el, binding) {
-		const svgEl = el.querySelector("svg:last-child")! as HTMLElement;
+		if (binding.value === 0) {
+			return;
+		}
+
+		const svgEl = el.querySelector("svg")! as unknown as HTMLElement;
 		svgEl.setAttribute("is-rotated", JSON.stringify(false));
 		svgEl.classList.add("v-rotator");
 
 		el.addEventListener("click", () => rotate(binding.value, svgEl));
 	},
 	beforeUnmount(el, binding) {
-		const svgEl = el.querySelector("svg:last-child")! as HTMLElement;
+		if (binding.value === 0) {
+			return;
+		}
+
+		const svgEl = el.querySelector("svg")! as unknown as HTMLElement;
 		el.removeEventListener("click", () => rotate(binding.value, svgEl));
 	},
 };

@@ -1,14 +1,20 @@
 export interface OpenLibraryCategory {
 	value: string;
-	category: string;
+	name: string;
 	values: string[];
 	translations: string[];
 }
 
 export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	{
+		value: "Home",
+		name: "Genel",
+		values: [],
+		translations: [],
+	},
+	{
 		value: "Art",
-		category: "Sanat",
+		name: "Sanat",
 		values: [
 			"Architecture",
 			"Art Instruction",
@@ -40,7 +46,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Animals",
-		category: "Hayvanlar",
+		name: "Hayvanlar",
 		values: ["Bears", "Cats", "Kittens", "Dogs", "Puppies"],
 		translations: [
 			"Ayılar",
@@ -52,7 +58,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Fiction",
-		category: "Kurgu",
+		name: "Kurgu",
 		values: [
 			"Fantasy",
 			"Historical Fiction",
@@ -88,13 +94,13 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Science & Mathematics",
-		category: "Bilim ve Matematik",
+		name: "Bilim ve Matematik",
 		values: ["Biology", "Chemistry", "Mathematics", "Physics", "Programming"],
 		translations: ["Biyoloji", "Kimya", "Matematik", "Fizik", "Programlama"],
 	},
 	{
 		value: "Business & Finance",
-		category: "İş ve Finans",
+		name: "İş ve Finans",
 		values: [
 			"Management",
 			"Entrepreneurship",
@@ -112,7 +118,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Children's",
-		category: "Çocuk Kitapları",
+		name: "Çocuk Kitapları",
 		values: [
 			"Kids Books",
 			"Stories in Rhyme",
@@ -130,7 +136,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "History",
-		category: "Tarih",
+		name: "Tarih",
 		values: [
 			"Ancient Civilization",
 			"Archaeology",
@@ -148,7 +154,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Health & Wellness",
-		category: "Sağlık ve Zindelik",
+		name: "Sağlık ve Zindelik",
 		values: [
 			"Cooking",
 			"Cookbooks",
@@ -168,7 +174,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Biography",
-		category: "Biyografi",
+		name: "Biyografi",
 		values: [
 			"Autobiographies",
 			"History",
@@ -200,7 +206,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Places",
-		category: "Yerler",
+		name: "Yerler",
 		values: ["Brazil", "India", "Indonesia", "United States"],
 		translations: [
 			"Brezilya",
@@ -211,7 +217,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	},
 	{
 		value: "Textbooks",
-		category: "Ders Kitapları",
+		name: "Ders Kitapları",
 		values: [
 			"History",
 			"Mathematics",
