@@ -49,7 +49,6 @@ watch(isAuthenticated, (state) => {
 }
 .content-wrapper > aside {
 	flex: 1;
-	max-width: 350px;
 }
 .content-wrapper > main {
 	flex: 3;
