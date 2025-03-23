@@ -11,9 +11,9 @@ interface Props {
 const props = defineProps<Props>();
 
 const hasValues = computed(() => props.category.values.length > 0);
-const rotateVal = computed(() => (hasValues ? 90 : 0));
+const rotateVal = computed(() => (hasValues.value ? 90 : 0));
 const iconName = computed<IconName>(() =>
-	hasValues ? "chevron-right" : "home"
+	hasValues.value ? "chevron-right" : "home"
 );
 </script>
 <template>
