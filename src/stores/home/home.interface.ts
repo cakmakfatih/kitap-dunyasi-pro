@@ -1,7 +1,7 @@
-export interface HomeState {}
+interface HomeState {}
 
-export interface HomeGetters {
-	[key: string]: (state: HomeState) => any;
-}
+interface HomeGetters {}
 
-export interface HomeActions {}
+interface HomeActions {}
+
+export type HomeStore = HomeState & HomeGetters & HomeActions;

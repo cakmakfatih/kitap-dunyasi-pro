@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
-import type { HomeActions, HomeGetters, HomeState } from "./home.interface";
+import type { HomeStore } from "./home.interface";
 
-export const useHomeStore = defineStore<"home", HomeState, HomeGetters, HomeActions>("home", {
-    state: () => ({
-
-    })
+export const useHomeStore = defineStore<"home", HomeStore>("home", () => {
+	return {};
 });
