@@ -12,7 +12,7 @@ interface Book {
 	title: string;
 }
 
-export interface OpenApiSearchResponse {
+export interface OpenLibrarySearchResponse {
 	numFound: number;
 	start: number;
 	numFoundExact: boolean;
@@ -24,7 +24,7 @@ export interface OpenApiSearchResponse {
 }
 
 interface ExternalApiService {
-	search: () => OpenApiSearchResponse;
+	search: () => OpenLibrarySearchResponse;
 }
 
 const client = axios.create({
