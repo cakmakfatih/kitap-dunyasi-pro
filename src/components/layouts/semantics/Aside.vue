@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<Props>(), {
 					<span>Genel</span>
 				</li>
 				<li
+					v-click-rotate-inner-icon="90"
 					class="category-link"
 					v-for="(item, index) in props.categories"
 					:key="index"
@@ -69,7 +70,7 @@ const props = withDefaults(defineProps<Props>(), {
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
-							d="m19.5 8.25-7.5 7.5-7.5-7.5"
+							d="m8.25 4.5 7.5 7.5-7.5 7.5"
 						/>
 					</svg>
 				</li>

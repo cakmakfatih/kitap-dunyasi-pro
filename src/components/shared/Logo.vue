@@ -24,12 +24,12 @@ const supFontSize = (props.fontSizePt / 2).toString() + "pt";
 
 sup {
 	font-weight: 500;
-	color: var(--color-primary);
+	color: #23202a;
 }
 
 .logo > span:first-child {
 	font-weight: 600;
-	color: var(--color-primary);
+	color: #23202a;
 }
 
 .logo > span:nth-child(2) {

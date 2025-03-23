@@ -6,6 +6,7 @@ import router from "./router";
 import { createPinia } from "pinia";
 import { createPersistedState } from "pinia-plugin-persistedstate";
 import storage from "./lib/storage";
+import { vClickRotateInnerIcon } from "./lib/directives";
 
 const pinia = createPinia();
 
@@ -19,6 +20,7 @@ pinia.use(
 );
 
 const app = createApp(App);
+app.directive("click-rotate-inner-icon", vClickRotateInnerIcon);
 
 app.use(pinia);
 app.use(router);

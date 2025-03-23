@@ -12,16 +12,18 @@ const logout = (e: Event) => {
 </script>
 <template>
 	<header>
-		<div class="content">
-			<section>
+		<section>
+			<div class="header-wrapper">
 				<Logo />
-			</section>
-			<section>
-				<Button @click="logout" :is-outline="true" :is-rounded="true"
-					>Çıkış Yap</Button
-				>
-			</section>
+			</div>
+		</section>
+		<section>
+			<div class="header-wrapper">
+			<Button @click="logout" :is-outline="true" :is-rounded="true"
+				>Çıkış Yap</Button
+			>
 		</div>
+		</section>
 	</header>
 </template>
 <style lang="css" scoped>
@@ -29,16 +31,18 @@ header {
 	height: 96px;
 	border-bottom: 1px solid #d9d9d9;
 	display: flex;
-	align-items: stretch;
+	align-items: center;
 	justify-content: center;
 	user-select: none;
 	background-color: white;
 }
-.content {
-	width: 1800px;
-	max-width: 90%;
+
+.header-wrapper {
+	flex: 1;
+	max-width: 350px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 section {
