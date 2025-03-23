@@ -71,5 +71,13 @@ body {
 	font-weight: bold;
 }
 .v-rotator {
-	transition: transform .2s ease-in-out;
+	transition: transform 0.2s ease-in-out;
+}
+.expandable {
+	overflow: hidden;
+	transition: max-height 0.25s ease-in-out;
+}
+.expanded {
+	height: fit-content;
+	margin-bottom: 10px;
 }

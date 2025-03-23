@@ -17,16 +17,30 @@ const iconName = computed<IconName>(() =>
 );
 </script>
 <template>
-	<li class="category-link">
+	<li class="category-link" v-expandable>
 		<div class="category-title" v-click-rotate-inner-icon="rotateVal">
 			<Icon :iconName="iconName" />
 			<span>{{ props.category.name }}</span>
 		</div>
+		<ul class="category-values" is-expanded="false">
+			<li class="category-value" v-if="hasValues">Hepsi</li>
+			<li
+				class="category-value"
+				v-for="(value, index) in props.category.translations"
+				:key="index"
+				>{{ value }}</li
+			>
+		</ul>
 	</li>
 </template>
 <style lang="css" scoped>
-.category-title {
+.category-link {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 	border-bottom: 1px solid #d9d9d9;
+}
+.category-title {
 	user-select: none;
 	padding: 10px 20px;
 	display: flex;
@@ -56,5 +70,29 @@ const iconName = computed<IconName>(() =>
 }
 .category-title > div {
 	flex: 1;
+}
+.category-values {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+.category-value {
+	user-select: none;
+	padding: 5px 7px;
+	list-style: none;
+	font-size: 14px;
+	margin-left: 10px;
+	margin-right: 15px;
+	transition: background-color 0.175s;
+	cursor: pointer;
+}
+.category-value:last-child {
+	margin-bottom: 10px;
+}
+.category-value:hover {
+	background-color: #f5f5f5;
+}
+.category-value:active {
+	background-color: #d5d5d5;
 }
 </style>

@@ -39,6 +39,7 @@ nav {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
+	overflow-y: auto;
 }
 ul {
 	display: flex;

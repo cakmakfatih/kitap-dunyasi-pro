@@ -43,6 +43,9 @@ watch(isAuthenticated, (state) => {
 	display: flex;
 	align-items: stretch;
 	box-shadow: rgba(0, 0, 0, 0.16) 1px 1px 4px;
+	min-height: auto;
+	max-height: calc(100vh - 96px);
+	box-sizing: border-box;
 }
 .content-wrapper > aside {
 	flex: 1;
