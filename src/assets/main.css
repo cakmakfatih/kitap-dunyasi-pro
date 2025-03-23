@@ -81,3 +81,7 @@ body {
 	height: fit-content;
 	margin-bottom: 10px;
 }
+.no-margin-vertical {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}

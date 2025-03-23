@@ -22,7 +22,10 @@ const iconName = computed<IconName>(() =>
 			<Icon :iconName="iconName" />
 			<span>{{ props.category.name }}</span>
 		</div>
-		<ul class="category-values" is-expanded="false">
+		<ul
+			:class="{ 'category-values': true, 'no-margin-vertical': !hasValues }"
+			is-expanded="false"
+		>
 			<li class="category-value" v-if="hasValues">Hepsi</li>
 			<li
 				class="category-value"
