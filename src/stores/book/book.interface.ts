@@ -5,6 +5,7 @@ export interface SubjectState {
 	currentPage: number;
 	lastPage?: number;
 	isFetching: boolean;
+	totalNum: number;
 }
 
 export interface Subject {

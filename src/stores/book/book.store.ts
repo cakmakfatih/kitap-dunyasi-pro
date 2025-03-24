@@ -28,6 +28,7 @@ export const useBookStore = defineStore<"book", BookStore>("book", () => {
 					currentPage: 0,
 					lastPage: undefined,
 					isFetching: false,
+					totalNum: 0,
 				},
 				books: [],
 			});
@@ -56,6 +57,12 @@ export const useBookStore = defineStore<"book", BookStore>("book", () => {
 			return;
 		}
 
+		subject.state = {
+			...subject.state,
+			currentPage: subject.state.currentPage + 1,
+			lastPage: Math.ceil(response.data.numFound / count),
+			totalNum: response.data.numFound,
+		};
 		subject.books = [...subject.books, ...response.data.docs];
 	}
 
