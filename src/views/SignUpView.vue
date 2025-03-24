@@ -34,7 +34,7 @@ const register = async (e: Event) => {
 			store.resetForm();
 			authStore.setToken(result.token ?? "");
 			authStore.setSession();
-			router.push({ name: "home", replace: true });
+			router.replace({ path: "/" });
 		} else {
 			store.setError(result.error);
 		}
@@ -94,6 +94,7 @@ const register = async (e: Event) => {
 					<Checkbox v-model="store.isAgreementAccepted"
 						>Üyelik sözleşmesini kabul ediyorum</Checkbox
 					>
+					<div style="height: 25px"></div>
 					<Button
 						:is-loading="store.isLoading"
 						:disabled="!store.isFormValid || store.isLoading"

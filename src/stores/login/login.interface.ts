@@ -1,19 +1,15 @@
 import type { FormError } from "@/services/api.service";
+import type { ComputedRef, Reactive, Ref } from "vue";
 
 export interface LoginState {
-	email: string;
-	password: string;
-	error: FormError;
-	rememberMe: boolean;
-	isLoading: boolean;
+	email: Ref<string>;
+	password: Ref<string>;
+	error: Reactive<FormError>;
+	rememberMe: Ref<boolean>;
+	isLoading: Ref<boolean>;
 }
-export interface LoginGetters {
-	isFormValid: (state: LoginState) => boolean;
-	[key: string]: (
-		state: LoginState
-	) => boolean | string | number | object | undefined;
-}
-export interface LoginActions {
+
+interface LoginActions {
 	setIsLoading: (l: boolean) => void;
 	setError: (e: FormError) => void;
 	resetError: () => void;
@@ -22,3 +18,9 @@ export interface LoginActions {
 	setEmail: (e: string) => void;
 	setPassword: (p: string) => void;
 }
+
+interface LoginGetters {
+	isFormValid: ComputedRef<boolean>;
+}
+
+export type LoginStore = LoginState & LoginActions & LoginGetters;

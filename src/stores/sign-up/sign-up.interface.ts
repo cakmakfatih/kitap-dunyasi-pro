@@ -1,24 +1,24 @@
 import type { FormError } from "@/services/api.service";
+import type { ComputedRef, Reactive, Ref } from "vue";
 
-export interface SignUpState {
-	name: string;
-	email: string;
-	password: string;
-	isAgreementAccepted: boolean;
-	isLoading: boolean;
-	error: FormError;
+interface SignUpState {
+	name: Ref<string>;
+	email: Ref<string>;
+	password: Ref<string>;
+	isAgreementAccepted: Ref<boolean>;
+	isLoading: Ref<boolean>;
+	error: Reactive<FormError>;
 }
 
-export interface SignUpGetters {
-	isFormValid: (state: SignUpState) => boolean;
-	[key: string]: (
-		state: SignUpState
-	) => boolean | string | number | object | undefined;
-}
-
-export interface SignUpActions {
+interface SignUpActions {
 	setIsLoading: (l: boolean) => void;
 	setError: (e: FormError) => void;
 	resetError: () => void;
 	resetForm: () => void;
 }
+
+interface SignUpGetters {
+	isFormValid: ComputedRef<boolean>;
+}
+
+export type SignUpStore = SignUpState & SignUpActions & SignUpGetters;

@@ -1,71 +1,95 @@
 import { defineStore } from "pinia";
-import type { LoginActions, LoginGetters, LoginState } from "./login.interface";
-import type { FormError } from "@/services/api.service";
+import type { LoginStore } from "./login.interface";
+import { emptyErrors, type FormError } from "@/services/api.service";
+import { computed, reactive, ref, watch } from "vue";
+import storage from "@/lib/storage";
 
 const validateForm = (email: string, password: string): boolean => {
 	return email !== "" && password !== "";
 };
 
-export const useLoginStore = defineStore<
+export const useLoginStore = defineStore<"login", LoginStore>(
 	"login",
-	LoginState,
-	LoginGetters,
-	LoginActions
->("login", {
-	state: (): LoginState => ({
-		email: "",
-		password: "",
-		rememberMe: JSON.parse(localStorage.getItem("rememberMe") ?? "false"),
-		isLoading: false,
-		error: {
-			hasErrors: false,
-			generalError: "",
-			fieldErrors: {
-				name: [],
-				email: [],
-				password: [],
-			},
-		},
-	}),
-	getters: {
-		isFormValid: (state: LoginState): boolean => {
-			return validateForm(state.email, state.password);
-		},
-	},
-	actions: {
-		setIsLoading(l: boolean) {
-			this.isLoading = l;
-		},
-		setError(e: FormError) {
-			this.error.generalError = e.generalError;
-			this.error.hasErrors = e.hasErrors;
-			this.error.fieldErrors = {
+	() => {
+		const loginStorage = storage.get("login");
+		const [email, password, error, rememberMe, isLoading] = [
+			ref(loginStorage.rememberMe ? loginStorage.email : ""),
+			ref(loginStorage.rememberMe ? loginStorage.password : ""),
+			reactive(Object.assign({}, emptyErrors)),
+			ref(false),
+			ref(false),
+		];
+
+		const isFormValid = computed(() =>
+			validateForm(email.value, password.value)
+		);
+
+		function setIsLoading(l: boolean) {
+			isLoading.value = l;
+		}
+		function setError(e: FormError) {
+			error.generalError = e.generalError;
+			error.hasErrors = e.hasErrors;
+			error.fieldErrors = {
 				name: [...e.fieldErrors.name],
 				email: [...e.fieldErrors.email],
 				password: [...e.fieldErrors.password],
 			};
-		},
-		resetError() {
-			this.error.generalError = "";
-			this.error.hasErrors = false;
-			this.error.fieldErrors = {
+		}
+		function resetError() {
+			error.generalError = "";
+			error.hasErrors = false;
+			error.fieldErrors = {
 				name: [],
 				email: [],
 				password: [],
 			};
-		},
-		resetForm() {
-			this.email = "";
-			this.password = "";
-		},
-		setRememberMe(r: boolean) {
-			this.rememberMe = r;
-		},
-		setEmail(e: string) {
-			this.email = e;
-		},
-		setPassword(p: string) {
-			this.password = p;
-		},
+		}
+		function resetForm() {
+			email.value = "";
+			password.value = "";
+		}
+		function setRememberMe(r: boolean) {
+			rememberMe.value = r;
+		}
+		function setEmail(e: string) {
+			email.value = e;
+		}
+		function setPassword(p: string) {
+			password.value = p;
+		}
+		watch(email, (state) => {
+			if (!rememberMe.value) {
+				storage.set("login", { ...storage.get("login"), email: "" });
+			}
+		});
+		watch(password, (state) => {
+			if (!rememberMe.value) {
+				storage.set("login", { ...storage.get("login"), password: "" });
+			}
+		});
+
+		return {
+			email,
+			password,
+			error,
+			rememberMe,
+			isLoading,
+			isFormValid,
+			setIsLoading,
+			setError,
+			resetError,
+			resetForm,
+			setRememberMe,
+			setEmail,
+			setPassword,
+		};
 	},
-});
+	{
+		persist: [
+			{
+				pick: ["rememberMe", "email", "password"],
+			},
+		],
+	}
+);

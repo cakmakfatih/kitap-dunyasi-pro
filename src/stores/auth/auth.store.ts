@@ -1,63 +1,71 @@
 import { defineStore } from "pinia";
-import {
-	type User,
-	type AuthState,
-	type AuthGetters,
-	type AuthActions,
-} from "./auth.interface";
+import { type User, type AuthStore } from "./auth.interface";
 import { useApiService } from "@/services/api.service";
+import { ref } from "vue";
 
-export const useAuthStore = defineStore<
+export const useAuthStore = defineStore<"auth", AuthStore>(
 	"auth",
-	AuthState,
-	AuthGetters,
-	AuthActions
->("auth", {
-	state: (): AuthState => ({
-		user: null,
-		isLoading: false,
-		accessToken: localStorage.getItem("accessToken") ?? "",
-		isAuthenticated: false,
-	}),
-	actions: {
-		setToken(token: string) {
-			this.accessToken = token;
-		},
-		setUser(u: User | null, isLoggedIn: boolean) {
-			this.isLoading = true;
+	() => {
+		const apiService = useApiService();
+		const [user, isLoading, accessToken, isAuthenticated] = [
+			ref<User | null>(null),
+			ref(false),
+			ref(""),
+			ref(false),
+		];
+		function setToken(token: string) {
+			accessToken.value = token;
+		}
+		function setUser(u: User | null, isLoggedIn: boolean) {
+			isLoading.value = true;
 
 			if (!isLoggedIn) {
-				this.user = null;
-				this.accessToken = "";
-				localStorage.removeItem("accessToken");
-				this.isAuthenticated = false;
+				user.value = null;
+				accessToken.value = "";
+				isAuthenticated.value = false;
 			} else {
-				localStorage.setItem("accesToken", this.accessToken);
-				this.user = u;
-				this.isAuthenticated = true;
+				user.value = u;
+				isAuthenticated.value = true;
 			}
 
-			this.isLoading = false;
-		},
-		setSession() {
-			const apiService = useApiService();
-			this.isLoading = true;
+			isLoading.value = false;
+		}
+		function setSession() {
+			isLoading.value = true;
 			apiService
-				.getSession(this.accessToken)
+				.getSession(accessToken.value)
 				.then((res) => {
-					this.setUser(res.user, res.isLoggedIn);
+					setUser(res.user, res.isLoggedIn);
 				})
 				.catch(() => {
-					this.setUser(null, false);
+					setUser(null, false);
 				})
 				.finally(() => {
-					this.isLoading = false;
+					isLoading.value = false;
 				});
-		},
-		logout() {
-			this.isLoading = true;
-			this.setUser(null, false);
-			this.isLoading = false;
-		},
+		}
+		function logout() {
+			isLoading.value = true;
+			setUser(null, false);
+			isLoading.value = false;
+		}
+
+		return {
+			user,
+			isLoading,
+			accessToken,
+			isAuthenticated,
+			setToken,
+			setUser,
+			setSession,
+			logout,
+		};
 	},
-});
+	{
+		persist: [
+			{
+				pick: ["accessToken"],
+			},
+		],
+	}
+);

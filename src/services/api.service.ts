@@ -1,15 +1,6 @@
+import storage from "@/lib/storage";
 import type { User } from "@/stores/auth/auth.interface";
-import type {
-	AxiosRequestConfig,
-	AxiosRequestHeaders,
-	AxiosResponse,
-} from "axios";
-import axios from "axios";
-import { ref } from "vue";
-
-const client = axios.create({
-	baseURL: "",
-});
+import type { AxiosRequestHeaders, AxiosResponse } from "axios";
 
 export interface FormError {
 	hasErrors: boolean;
@@ -52,9 +43,7 @@ async function registerUser({
 	email: string;
 	password: string;
 }): Promise<AxiosResponse<RegisterUserResponse>> {
-	const existingUsersStr = localStorage.getItem("users") ?? "[]";
-
-	const users: { [key: string]: User } = JSON.parse(existingUsersStr);
+	const users: { [key: string]: User } = storage.get("users") ?? [];
 	const emails: string[] = Object.values(users).map((i) => i.email);
 
 	const errors = Object.assign({}, emptyErrors);
@@ -96,11 +85,7 @@ async function registerUser({
 	};
 
 	const token = createMockToken();
-	localStorage.setItem(
-		"users",
-		JSON.stringify({ ...users, [token]: { ...user } })
-	);
-	localStorage.setItem("accessToken", token);
+	storage.set("users", { ...users, [token]: { ...user } });
 
 	const response: AxiosResponse<RegisterUserResponse> = {
 		data: {
@@ -134,9 +119,7 @@ function createMockToken(): string {
 }
 
 function decodeToken(token: string): User | null {
-	const users: { [key: string]: User } = JSON.parse(
-		localStorage.getItem("users") || "{}"
-	);
+	const users: { [key: string]: User } = storage.get("users") || {};
 
 	if (Object.keys(users).find((i) => i === token)) {
 		return { ...users[token] };
@@ -167,46 +150,7 @@ async function mockAuthCheck(token: string): Promise<AxiosResponse<boolean>> {
 	return Promise.reject(false);
 }
 
-export function useApiService() {
-	const data = ref<unknown>(null);
-	const error = ref<string | null>(null);
-	const loading = ref<boolean>(false);
-
-	const get = async <T>(
-		url: string,
-		config?: AxiosRequestConfig
-	): Promise<void> => {
-		loading.value = true;
-		error.value = null;
-
-		try {
-			const response: AxiosResponse<T> = await client.get(url, config);
-			data.value = response.data;
-		} catch (err) {
-			error.value = (err as Error).message;
-		} finally {
-			loading.value = false;
-		}
-	};
-
-	const post = async <T, P = any>(
-		url: string,
-		payload: P,
-		config?: AxiosRequestConfig
-	): Promise<void> => {
-		loading.value = true;
-		error.value = null;
-
-		try {
-			const response: AxiosResponse = await client.post(url, payload, config);
-			data.value = response.data;
-		} catch (err) {
-			error.value = (err as Error).message;
-		} finally {
-			loading.value = false;
-		}
-	};
-
+export const useApiService = () => {
 	const register = async ({
 		name,
 		email,
@@ -217,7 +161,6 @@ export function useApiService() {
 		return new Promise((resolve, reject) => {
 			return setTimeout(async () => {
 				try {
-					loading.value = true;
 					const result: AxiosResponse<RegisterUserResponse> =
 						await registerUser({
 							name,
@@ -228,8 +171,6 @@ export function useApiService() {
 					resolve(result.data);
 				} catch (err) {
 					reject((err as AxiosResponse<RegisterUserResponse>).data);
-				} finally {
-					loading.value = false;
 				}
 			}, mockLoadingTime);
 		});
@@ -248,9 +189,7 @@ export function useApiService() {
 				errors.fieldErrors.name = [];
 				errors.fieldErrors.email = [];
 				errors.fieldErrors.password = [];
-				const users: { [key: string]: User } = JSON.parse(
-					localStorage.getItem("users") ?? "[]"
-				);
+				const users: { [key: string]: User } = storage.get("users") || {};
 				const userKeys = Object.keys(users);
 				const userValues = Object.values(users);
 
@@ -258,7 +197,6 @@ export function useApiService() {
 					(u) => u.email === email && u.password === password
 				);
 				if (userIdx !== -1) {
-					localStorage.setItem("accessToken", userKeys[userIdx]);
 					resolve({
 						success: true,
 						token: userKeys[userIdx],
@@ -325,17 +263,12 @@ export function useApiService() {
 				user: null,
 				isLoggedIn: false,
 			};
-		} finally {
-			loading.value = false;
 		}
 	};
 
 	return {
-		data,
 		getSession,
-		get,
-		post,
 		register,
 		login,
 	};
-}
+};
