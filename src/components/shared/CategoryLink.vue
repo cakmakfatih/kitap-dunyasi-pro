@@ -27,7 +27,8 @@ const categoryRoute =
 				name: "home",
 		  };
 const isRouteActive =
-	router.currentRoute.value.params.category === slugify(props.category.value);
+	router.currentRoute.value.params.category === slugify(props.category.value) ||
+	props.category.to === router.currentRoute.value.path;
 </script>
 <template>
 	<li class="category-link" v-expandable>
