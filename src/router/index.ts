@@ -38,6 +38,22 @@ const router = createRouter({
 				requiresAuth: true,
 			},
 		},
+		{
+			path: "/categories/:category/all",
+			name: "categories-all-view",
+			component: () => import("@/views/HomeView.vue"),
+			meta: {
+				requiresAuth: true,
+			},
+		},
+		{
+			path: "/categories/:category/:subject",
+			name: "subject-view",
+			component: () => import("@/views/HomeView.vue"),
+			meta: {
+				requiresAuth: true,
+			},
+		},
 	],
 });
 

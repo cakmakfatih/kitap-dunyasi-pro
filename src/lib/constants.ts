@@ -12,7 +12,7 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 		name: "Genel",
 		values: [],
 		translations: [],
-		to: "",
+		to: "/",
 	},
 	{
 		value: "Art",

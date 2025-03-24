@@ -79,6 +79,7 @@ body {
 }
 .expanded {
 	height: fit-content;
+	margin-top: 5px;
 	margin-bottom: 10px;
 }
 .no-margin-vertical {

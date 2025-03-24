@@ -4,22 +4,34 @@ const disallowBubbling = (e: Event) => {
 	e.stopPropagation();
 };
 
-const rotate = (rotateNum: number, el: HTMLElement) => {
-	const isRotated = JSON.parse(el.getAttribute("is-rotated") ?? "false");
+const rotate = (
+	rotateNum: number,
+	el: HTMLElement,
+	direct: boolean = false
+) => {
+	let isRotated = JSON.parse(el.getAttribute("is-rotated") ?? "false");
+	if (direct) {
+		isRotated = false;
+	}
 	if (isRotated) {
 		rotateNum = 0;
 	}
 
 	el.style.transform = "rotate(" + rotateNum + "deg)";
-	el.setAttribute("is-rotated", JSON.stringify(!isRotated));
+	if (!direct) {
+		el.setAttribute("is-rotated", JSON.stringify(!isRotated));
+	}
 };
 
-const expand = (el: HTMLElement) => {
-	const isExpanded = JSON.parse(el.getAttribute("is-expanded") || "false");
+const expand = (el: HTMLElement, isDirect: boolean = false) => {
+	let isExpanded = JSON.parse(el.getAttribute("is-expanded") || "false");
+	if (isDirect) {
+		isExpanded = false;
+	}
 
 	if (!isExpanded) {
 		const childrenElements = Array.from(el.children);
-		const totalHeight = childrenElements.reduce((total, child) => {
+		let totalHeight = childrenElements.reduce((total, child) => {
 			const rect = child.getBoundingClientRect();
 			return total + rect.height;
 		}, 0);
@@ -38,10 +50,14 @@ export const vClickRotateInnerIcon: Directive<HTMLElement, number> = {
 		if (binding.value === 0) {
 			return;
 		}
-
+		const isRotated = JSON.parse(el.getAttribute("is-rotated") ?? "false");
 		const svgEl = el.querySelector("svg")! as unknown as HTMLElement;
-		svgEl.setAttribute("is-rotated", JSON.stringify(false));
 		svgEl.classList.add("v-rotator");
+		svgEl.setAttribute("is-rotated", JSON.stringify(isRotated));
+
+		if (isRotated) {
+			rotate(binding.value, svgEl, true);
+		}
 
 		el.addEventListener("click", () => rotate(binding.value, svgEl));
 	},
@@ -62,10 +78,14 @@ export const vExpandable: Directive<HTMLElement, void> = {
 			expandable.getAttribute("is-expanded") ?? "false"
 		);
 
-		expandable.setAttribute("is-expanded", isExpandedNow);
+		expandable.setAttribute("is-expanded", JSON.stringify(isExpandedNow));
+		if (isExpandedNow) {
+			expand(expandable, true);
+		} else {
+			expandable.style.maxHeight = "0px";
+		}
 
 		el.addEventListener("click", () => expand(expandable));
-		expandable.style.maxHeight = "0px";
 		expandable.addEventListener("click", (e) => disallowBubbling(e));
 		expandable.classList.add("expandable");
 	},

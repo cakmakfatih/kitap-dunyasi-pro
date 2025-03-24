@@ -3,10 +3,14 @@ import Icon from "./Icon.vue";
 import type { OpenLibraryCategory } from "@/lib/constants";
 import { computed } from "vue";
 import { type IconName } from "@/lib/types";
+import { slugify } from "@/lib/utils";
+import { useRouter } from "vue-router";
 
 interface Props {
 	category: OpenLibraryCategory;
 }
+
+const router = useRouter();
 
 const props = defineProps<Props>();
 
@@ -17,37 +21,57 @@ const iconName = computed<IconName>(() =>
 );
 const categoryRoute = computed(() =>
 	props.category.to === undefined
-		? "categories/" + props.category.name.toLowerCase() + "/all"
-		: props.category.to
+		? {
+				name: "categories-all-view",
+				params: {
+					category: slugify(props.category.value),
+				},
+		  }
+		: {
+				name: "home",
+		  }
 );
+const isRouteActive =
+	router.currentRoute.value.params.category === slugify(props.category.value);
 </script>
 <template>
-	<RouterLink
-		exactActiveClass="active"
-		:to="categoryRoute"
-		class="category-link"
-		v-expandable
-	>
-		<div class="category-title" v-click-rotate-inner-icon="rotateVal">
+	<li class="category-link" v-expandable>
+		<div
+			class="category-title"
+			v-click-rotate-inner-icon="rotateVal"
+			:is-rotated="isRouteActive"
+		>
 			<Icon :iconName="iconName" />
 			<span>{{ props.category.name }}</span>
 		</div>
 		<ul
 			:class="{ 'category-values': true, 'no-margin-vertical': !hasValues }"
 			expandable
+			:is-expanded="isRouteActive"
 		>
-			<RouterLink :to="categoryRoute" class="category-value" v-if="hasValues"
+			<RouterLink
+				exactActiveClass="active"
+				:to="categoryRoute"
+				class="category-value"
+				v-if="hasValues"
 				>Hepsi</RouterLink
 			>
 			<RouterLink
 				class="category-value"
+				exactActiveClass="active"
 				v-for="(value, index) in props.category.translations"
-				:to="categoryRoute + '/' + props.category.values[index]"
+				:to="{
+					name: 'subject-view',
+					params: {
+						category: slugify(props.category.value),
+						subject: slugify(props.category.values[index]),
+					},
+				}"
 				:key="index"
 				>{{ value }}</RouterLink
 			>
 		</ul>
-	</RouterLink>
+	</li>
 </template>
 <style lang="css" scoped>
 .category-link {
@@ -69,10 +93,10 @@ const categoryRoute = computed(() =>
 .category-title > span {
 	margin-left: 10px;
 }
-.category-link:not(.active):hover {
+.category-link:not(.active) > .category-title:not(.active):hover {
 	background-color: #eee;
 }
-.category-link:not(.active):active {
+.category-link:not(.active) > .category-title:not(.active):active {
 	background-color: #ddd;
 }
 .category-title:last-child {
@@ -101,23 +125,30 @@ const categoryRoute = computed(() =>
 	font-size: 14px;
 	margin-left: 10px;
 	margin-right: 15px;
-	transition: background-color 0.175s;
+	transition: all 0.175s;
 	cursor: pointer;
 	text-decoration: none;
 	color: #424242;
+	border: 1px solid transparent;
+}
+.category-value:hover:not(.active) {
+	background-color: #e5e5e5;
+}
+.category-value:active:not(.active) {
+	background-color: #d5d5d5;
+}
+.category-value.active {
+	background-color: #eaeaea;
+	cursor: default;
+	border-color: #d5d5d5;
 }
 .category-value:last-child {
 	margin-bottom: 10px;
 }
-.category-value:hover {
-	background-color: #f5f5f5;
-}
-.category-value:active {
-	background-color: #d5d5d5;
-}
 .category-link.active {
-	background-color: #23202a;
-	color: white;
+	background-color: #e5e5e5;
+	color: #424242;
+	font-weight: 600;
 }
 .category-link.active > .category-title {
 	cursor: default !important;
