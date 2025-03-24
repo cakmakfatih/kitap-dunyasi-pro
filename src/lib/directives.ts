@@ -7,8 +7,17 @@ const disallowBubbling = (e: Event) => {
 const rotate = (
 	rotateNum: number,
 	el: HTMLElement,
-	direct: boolean = false
+	direct: boolean = false,
+	isFromClick: boolean = false
 ) => {
+	const rotatedEls = Array.from(
+		document.querySelectorAll("[is-rotated='true']")
+	).filter((element) => element !== el);
+	if (isFromClick) {
+		rotatedEls.forEach((rotatedEl) =>
+			rotate(rotateNum, rotatedEl as HTMLElement, false, false)
+		);
+	}
 	let isRotated = JSON.parse(el.getAttribute("is-rotated") ?? "false");
 	if (direct) {
 		isRotated = false;
@@ -23,7 +32,20 @@ const rotate = (
 	}
 };
 
-const expand = (el: HTMLElement, isDirect: boolean = false) => {
+const expand = (
+	el: HTMLElement,
+	isDirect: boolean = false,
+	isFromClick: boolean = false
+) => {
+	const expandedEls = Array.from(
+		document.querySelectorAll("[is-expanded='true']")
+	).filter((element) => element !== el);
+	if (isFromClick) {
+		expandedEls.forEach((expandedEl) =>
+			expand(expandedEl as HTMLElement, false, true)
+		);
+	}
+
 	let isExpanded = JSON.parse(el.getAttribute("is-expanded") || "false");
 	if (isDirect) {
 		isExpanded = false;
@@ -56,10 +78,12 @@ export const vClickRotateInnerIcon: Directive<HTMLElement, number> = {
 		svgEl.setAttribute("is-rotated", JSON.stringify(isRotated));
 
 		if (isRotated) {
-			rotate(binding.value, svgEl, true);
+			rotate(binding.value, svgEl, false, true);
 		}
 
-		el.addEventListener("click", () => rotate(binding.value, svgEl));
+		el.addEventListener("click", () =>
+			rotate(binding.value, svgEl, false, true)
+		);
 	},
 	beforeUnmount(el, binding) {
 		if (binding.value === 0) {
@@ -80,12 +104,12 @@ export const vExpandable: Directive<HTMLElement, void> = {
 
 		expandable.setAttribute("is-expanded", JSON.stringify(isExpandedNow));
 		if (isExpandedNow) {
-			expand(expandable, true);
+			expand(expandable, true, false);
 		} else {
 			expandable.style.maxHeight = "0px";
 		}
 
-		el.addEventListener("click", () => expand(expandable));
+		el.addEventListener("click", () => expand(expandable, false, true));
 		expandable.addEventListener("click", (e) => disallowBubbling(e));
 		expandable.classList.add("expandable");
 	},
