@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import Icon from "./Icon.vue";
 import type { OpenLibraryCategory } from "@/lib/constants";
-import { computed } from "vue";
-import { type IconName } from "@/lib/types";
 import { slugify } from "@/lib/utils";
 import { useRouter } from "vue-router";
 
@@ -14,12 +12,10 @@ const router = useRouter();
 
 const props = defineProps<Props>();
 
-const hasValues = computed(() => props.category.values.length > 0);
-const rotateVal = computed(() => (hasValues.value ? 90 : 0));
-const iconName = computed<IconName>(() =>
-	hasValues.value ? "chevron-right" : "home"
-);
-const categoryRoute = computed(() =>
+const hasValues = props.category.values.length > 0;
+const rotateVal = hasValues ? 90 : 0;
+const iconName = hasValues ? "chevron-right" : "home";
+const categoryRoute =
 	props.category.to === undefined
 		? {
 				name: "categories-all-view",
@@ -29,8 +25,7 @@ const categoryRoute = computed(() =>
 		  }
 		: {
 				name: "home",
-		  }
-);
+		  };
 const isRouteActive =
 	router.currentRoute.value.params.category === slugify(props.category.value);
 </script>

@@ -9,7 +9,7 @@ export interface OpenLibraryCategory {
 export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	{
 		value: "Home",
-		name: "Genel",
+		name: "Anasayfa",
 		values: [],
 		translations: [],
 		to: "/",
