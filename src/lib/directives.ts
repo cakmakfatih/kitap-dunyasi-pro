@@ -78,7 +78,7 @@ export const vClickRotateInnerIcon: Directive<HTMLElement, number> = {
 		svgEl.setAttribute("is-rotated", JSON.stringify(isRotated));
 
 		if (isRotated) {
-			rotate(binding.value, svgEl, false, true);
+			rotate(binding.value, svgEl, true, true);
 		}
 
 		el.addEventListener("click", () =>
