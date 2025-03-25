@@ -3,10 +3,32 @@ import { type BookStore, type Subject } from "./book.interface";
 import { computed, reactive } from "vue";
 import {
 	useExternalApiService,
+	type Book,
 	type BookSearchParams,
 } from "@/services/external.api.service";
 
 const DEFAULT_COUNT = 20;
+
+function mapBooksToCoveredBooks(books: Book[], size: "S" | "M" | "L") {
+	const booksWithImages: Book[] = [];
+
+	for (let i = 0; i < books.length; i++) {
+		const book: Book = Object.assign({}, books[i]);
+		if (book.cover_edition_key !== undefined) {
+			book.img_url = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-${size}.jpg`;
+			booksWithImages.push(book);
+			continue;
+		}
+		if (book.cover_i !== undefined) {
+			book.img_url = `https://covers.openlibrary.org/b/id/${book.cover_i}-${size}.jpg`;
+			booksWithImages.push(book);
+			continue;
+		}
+		book.img_url = "";
+	}
+
+	return booksWithImages;
+}
 
 export const useBookStore = defineStore<"book", BookStore>("book", () => {
 	const externalApi = useExternalApiService();
@@ -63,7 +85,8 @@ export const useBookStore = defineStore<"book", BookStore>("book", () => {
 			lastPage: Math.ceil(response.data.numFound / count),
 			totalNum: response.data.numFound,
 		};
-		subject.books = [...subject.books, ...response.data.docs];
+		const coveredBooks = mapBooksToCoveredBooks(response.data.docs, "M");
+		subject.books = [...subject.books, ...coveredBooks];
 	}
 
 	return {

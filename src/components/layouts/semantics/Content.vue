@@ -5,8 +5,10 @@
 <style lang="css" scoped>
 main {
 	align-self: stretch;
-	background-color: #fff;
+	background-color: #f5f5f5;
 	display: flex;
 	flex-direction: column;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 </style>

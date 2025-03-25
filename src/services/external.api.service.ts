@@ -10,6 +10,9 @@ export interface Book {
 	language: string[];
 	public_scan_b: boolean;
 	title: string;
+	cover_i?: string;
+	cover_edition_key?: string;
+	img_url: string;
 }
 
 export interface OpenLibrarySearchResponse {

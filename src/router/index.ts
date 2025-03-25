@@ -49,7 +49,7 @@ const router = createRouter({
 		{
 			path: "/categories/:category/:subject",
 			name: "subject-view",
-			component: () => import("@/views/HomeView.vue"),
+			component: () => import("@/views/SubjectView.vue"),
 			meta: {
 				requiresAuth: true,
 			},
