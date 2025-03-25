@@ -42,11 +42,13 @@ export const useBookStore = defineStore<"book", BookStore>("book", () => {
 
 	async function fetchBooksBySubject(
 		subjectName: string,
+		title: string,
 		count: number = DEFAULT_COUNT
 	) {
 		if (!subjects.has(subjectName)) {
 			subjects.set(subjectName, {
 				state: {
+					title: title,
 					currentPage: 0,
 					lastPage: undefined,
 					isFetching: false,

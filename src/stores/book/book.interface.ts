@@ -2,6 +2,7 @@ import type { Book } from "@/services/external.api.service";
 import type { ComputedRef, Reactive } from "vue";
 
 export interface SubjectState {
+	title: string;
 	currentPage: number;
 	lastPage?: number;
 	isFetching: boolean;
@@ -22,7 +23,11 @@ interface BookGetters {
 }
 
 interface BookActions {
-	fetchBooksBySubject: (subjectName: string, count?: number) => void;
+	fetchBooksBySubject: (
+		subjectName: string,
+		title: string,
+		count?: number
+	) => void;
 }
 
 export type BookStore = BookState & BookGetters & BookActions;

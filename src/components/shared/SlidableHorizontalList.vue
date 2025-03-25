@@ -78,7 +78,7 @@ const props = withDefaults(defineProps<Props>(), {
 	font-weight: 500;
 	white-space: nowrap;
 	max-width: 160px;
-	overflow: hidden; /* Hide the overflowing text */
+	overflow: hidden;
 	text-overflow: ellipsis;
 }
 .book-info {
