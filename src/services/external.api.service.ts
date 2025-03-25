@@ -57,8 +57,8 @@ const client = axios.create({
 function search(
 	params: BookSearchParams
 ): Promise<AxiosResponse<OpenLibrarySearchResponse>> {
-	const { language, subject, limit, offset } = params;
-	let q = "*+language:" + language;
+	const { subject, limit, offset } = params;
+	let q = "*";
 	if (subject !== undefined) {
 		q += "+subject:" + subject;
 	}

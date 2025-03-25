@@ -1,29 +1,38 @@
 <script lang="ts" setup>
 import type { Book } from "@/services/external.api.service";
+import type { SubjectState } from "@/stores/book/book.interface";
 
 interface Props {
-	isLoading?: boolean;
-	subject?: string;
+	state?: SubjectState | undefined;
 	books?: Book[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	isLoading: () => false,
-	subject: () => "",
 	books: () => [],
 });
 </script>
 <template>
 	<section class="book-section">
-		<h1 class="section-title">{{ subject }}</h1>
+		<header class="section-header">
+			<h1 class="section-title">{{ state?.title }}</h1>
+			<h3 class="book-count">{{ state?.totalNum }} Kitap</h3>
+		</header>
 		<div class="section-content">
-			<div class="book" v-for="(book, index) in props.books" :key="index">
+			<div
+				class="book"
+				v-for="(book, index) in props.books"
+				:key="index"
+				:title="book.title"
+			>
 				<div
 					class="book-cover"
 					:style="{ backgroundImage: `url('${book.img_url}')` }"
 				/>
 				<h3 class="book-title">{{ book.title }}</h3>
 				<div class="book-info">
+					<span :title="book.author_name.join(', ')"
+						><b>Yazar:</b> {{ book.author_name.join(", ") }}</span
+					>
 					<span><b>İlk Yayın Yılı:</b> {{ book.first_publish_year }}</span>
 					<span><b>Baskı No:</b> {{ book.edition_count }}</span>
 				</div>
@@ -32,6 +41,14 @@ const props = withDefaults(defineProps<Props>(), {
 	</section>
 </template>
 <style lang="css" scoped>
+.section-header {
+	display: flex;
+	align-items: center;
+}
+.book-count {
+	font-weight: 500;
+	margin-left: 15px;
+}
 .book-section {
 	display: flex;
 	flex-direction: column;
@@ -81,6 +98,14 @@ const props = withDefaults(defineProps<Props>(), {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+span {
+	white-space: nowrap;
+	max-width: 160px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .book-info {
 	display: flex;
 	flex-direction: column;

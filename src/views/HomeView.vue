@@ -10,17 +10,16 @@ import { computed } from "vue";
 const store = useBookStore();
 const { subjects } = storeToRefs(store);
 
-
 if (!store.subjects.has("home")) {
 	const initialFetchCategories = [...OPEN_LIBRARY_CATEGORIES]
 		.map((i) => ({
-			title: i.name,
 			subjectName: slugify(i.value),
+			title: i.name,
 		}))
-		.slice(1, 5);
+		.slice(1);
 
 	Promise.all([
-		store.fetchBooksBySubject("new", "Yeni"),
+		store.fetchBooksBySubject("", "Karışık"),
 		initialFetchCategories.map((i) =>
 			store.fetchBooksBySubject(i.subjectName, i.title)
 		),
@@ -35,7 +34,7 @@ const subjectValues = computed(() => Array.from(subjects.value.values()));
 			v-for="(subject, index) in subjectValues"
 			:key="index"
 			:is-loading="subject.state.isFetching"
-			:subject="subject.state.title"
+			:state="subject.state"
 			:books="subject.books"
 		/>
 	</MainLayout>

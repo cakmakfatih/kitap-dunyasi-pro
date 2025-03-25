@@ -10,8 +10,8 @@ export const OPEN_LIBRARY_CATEGORIES: OpenLibraryCategory[] = [
 	{
 		value: "Home",
 		name: "Anasayfa",
-		values: ["New", "Saved"],
-		translations: ["Yeni Kitaplar", "Kaydettiklerim"],
+		values: ["New"],
+		translations: ["Yeni Kitaplar"],
 		to: "/",
 	},
 	{
