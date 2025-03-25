@@ -8,28 +8,82 @@ import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
 const store = useBookStore();
-const { subjects } = storeToRefs(store);
+const { subjects, isFetchingAnything } = storeToRefs(store);
 
-if (!store.subjects.has("home")) {
-	const initialFetchCategories = [...OPEN_LIBRARY_CATEGORIES]
-		.map((i) => ({
-			subjectName: slugify(i.value),
-			title: i.name,
-		}))
-		.slice(1);
+const subjectKeys = computed(() => Array.from(subjects.value.keys()));
+const subjectValues = computed(() => Array.from(subjects.value.values()));
 
-	Promise.all([
-		store.fetchBooksBySubject("", "Karışık"),
-		initialFetchCategories.map((i) =>
-			store.fetchBooksBySubject(i.subjectName, i.title)
-		),
-	]);
+if (subjectValues.value.length === 0) {
+	fetchHomeSubjects();
 }
 
-const subjectValues = computed(() => Array.from(subjects.value.values()));
+function fetchHomeSubjects() {
+	const fetchCategories = [];
+	let subjectsToFetch: number = 0;
+	if (subjectKeys.value.length < OPEN_LIBRARY_CATEGORIES.length) {
+		const lengthDiff =
+			OPEN_LIBRARY_CATEGORIES.length - subjectKeys.value.length;
+		subjectsToFetch = lengthDiff > 5 ? 5 : lengthDiff;
+	}
+
+	if (subjectsToFetch == 0) {
+		return;
+	}
+
+	const startIdx = subjectValues.value.length;
+	const endIdx = startIdx + subjectsToFetch;
+	if (startIdx === 0) {
+		const initialCategories = [...OPEN_LIBRARY_CATEGORIES].slice(
+			startIdx + 1,
+			endIdx
+		);
+		const mappedVals = initialCategories.map((i) => ({
+			subjectName: slugify(i.value),
+			title: i.name,
+		}));
+		fetchCategories.push(
+			{
+				subjectName: "home",
+				title: "Karışık",
+			},
+			...mappedVals
+		);
+	} else {
+		const initialCategories = [...OPEN_LIBRARY_CATEGORIES].slice(
+			startIdx,
+			endIdx
+		);
+		const mappedVals = initialCategories.map((i) => ({
+			subjectName: slugify(i.value),
+			title: i.name,
+		}));
+		fetchCategories.push(...mappedVals);
+	}
+
+	Promise.all(
+		fetchCategories.map((i) =>
+			store.fetchBooksBySubject(i.subjectName, i.title)
+		)
+	);
+}
+
+function onScroll(e: Event) {
+	if (isFetchingAnything.value) {
+		return;
+	}
+	const element = e.target as HTMLElement;
+	if (!element) return;
+
+	const isScrolledToBottom =
+		element.scrollHeight - element.scrollTop <= element.clientHeight + 10;
+
+	if (isScrolledToBottom) {
+		fetchHomeSubjects();
+	}
+}
 </script>
 <template>
-	<MainLayout>
+	<MainLayout @scroll="onScroll">
 		<SlidableHorizontalList
 			v-for="(subject, index) in subjectValues"
 			:key="index"

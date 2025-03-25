@@ -50,8 +50,3 @@ label {
 	user-select: none;
 }
 </style>
-<script lang="ts">
-export default defineComponent({
-	inheritAttrs: false,
-});
-</script>

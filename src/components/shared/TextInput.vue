@@ -98,8 +98,3 @@ input:-webkit-autofill:active {
 	-webkit-background-clip: text;
 }
 </style>
-<script lang="ts">
-export default defineComponent({
-	inheritAttrs: false,
-});
-</script>

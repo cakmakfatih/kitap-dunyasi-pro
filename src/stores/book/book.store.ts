@@ -72,7 +72,7 @@ export const useBookStore = defineStore<"book", BookStore>("book", () => {
 			limit: count,
 			offset: subject.state.currentPage * count,
 			sort: "new",
-			subject: subjectName === "new" ? undefined : subjectName,
+			subject: subjectName === "home" ? "" : subjectName,
 		};
 		const response = await externalApi.search(searchParams);
 		subject.state = { ...subject.state, isFetching: false };

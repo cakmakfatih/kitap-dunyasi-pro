@@ -15,7 +15,9 @@ const props = withDefaults(defineProps<Props>(), {
 	<section class="book-section">
 		<header class="section-header">
 			<h1 class="section-title">{{ state?.title }}</h1>
-			<h3 class="book-count">{{ state?.totalNum }} Kitap</h3>
+			<h3 v-if="state?.totalNum !== 0" class="book-count"
+				>{{ state?.totalNum }} Kitap</h3
+			>
 		</header>
 		<div class="section-content">
 			<div

@@ -23,7 +23,7 @@ watch(isAuthenticated, (state) => {
 		<Header />
 		<div class="content-wrapper">
 			<Aside />
-			<Content>
+			<Content v-bind="$attrs">
 				<slot></slot>
 			</Content>
 		</div>
