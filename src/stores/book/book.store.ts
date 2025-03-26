@@ -7,7 +7,7 @@ import {
 	type BookSearchParams,
 } from "@/services/external.api.service";
 
-const DEFAULT_COUNT = 20;
+const DEFAULT_COUNT = 10;
 
 function mapBooksToCoveredBooks(books: Book[], size: "S" | "M" | "L") {
 	const booksWithImages: Book[] = [];
