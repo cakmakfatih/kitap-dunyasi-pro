@@ -14,7 +14,7 @@ const { categories } = withDefaults(defineProps<Props>(), {
 });
 </script>
 <template>
-	<aside>
+	<aside v-bind="$attrs">
 		<nav>
 			<ul>
 				<CategoryLink
