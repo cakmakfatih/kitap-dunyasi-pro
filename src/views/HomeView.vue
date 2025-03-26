@@ -13,6 +13,8 @@ const { subjects, isFetchingAnything } = storeToRefs(store);
 const subjectKeys = computed(() => Array.from(subjects.value.keys()));
 const subjectValues = computed(() => Array.from(subjects.value.values()));
 
+const fetchCategoryCount = 3;
+
 if (subjectValues.value.length === 0) {
 	fetchHomeSubjects();
 }
@@ -23,7 +25,8 @@ function fetchHomeSubjects() {
 	if (subjectKeys.value.length < OPEN_LIBRARY_CATEGORIES.length) {
 		const lengthDiff =
 			OPEN_LIBRARY_CATEGORIES.length - subjectKeys.value.length;
-		subjectsToFetch = lengthDiff > 5 ? 5 : lengthDiff;
+		subjectsToFetch =
+			lengthDiff > fetchCategoryCount ? fetchCategoryCount : lengthDiff;
 	}
 
 	if (subjectsToFetch == 0) {
