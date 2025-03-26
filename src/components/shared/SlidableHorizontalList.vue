@@ -2,10 +2,6 @@
 import type { Book } from "@/services/external.api.service";
 import type { SubjectState } from "@/stores/book/book.interface";
 
-// const asideRef = inject<Readonly<ShallowRef>>("aside");
-// const asideRect =
-// 	(asideRef?.value.$el as HTMLElement).getBoundingClientRect() ?? 0;
-
 interface Props {
 	state?: SubjectState | undefined;
 	books?: Book[];
