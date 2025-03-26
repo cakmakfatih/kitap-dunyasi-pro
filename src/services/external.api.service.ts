@@ -46,7 +46,7 @@ const openLibParamEncoder: ParamEncoder = (value: string) => {
 
 const client = axios.create({
 	baseURL: "https://openlibrary.org/",
-	timeout: 30000,
+	timeout: 45000,
 	headers: { "Content-Type": "application/json" },
 	paramsSerializer: {
 		encode: openLibParamEncoder,

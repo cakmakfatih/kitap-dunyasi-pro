@@ -44,15 +44,33 @@ const props = withDefaults(defineProps<Props>(), {
 					<span><b>Baskı No:</b> {{ book.edition_count }}</span>
 				</div>
 			</div>
-			<template v-else>
-				<div class="skeleton-loader" v-for="index in 15" :key="index">
-					<div class="skeleton-image"></div>
-					<div class="skeleton-text"></div>
-					<div class="skeleton-text"></div>
-					<div class="skeleton-text"></div>
-					<div class="skeleton-text"></div>
-				</div>
-			</template>
+			<div
+				class="skeleton-loader"
+				:style="{ animationDelay: `${index * 0.2}s` }"
+				v-for="index in 10"
+				:key="index"
+			>
+				<div
+					:style="{ animationDelay: `${index * 0.2}s` }"
+					class="skeleton-image"
+				></div>
+				<div
+					:style="{ animationDelay: `${index * 0.2}s` }"
+					class="skeleton-text"
+				></div>
+				<div
+					:style="{ animationDelay: `${index * 0.2}s` }"
+					class="skeleton-text"
+				></div>
+				<div
+					:style="{ animationDelay: `${index * 0.2}s` }"
+					class="skeleton-text"
+				></div>
+				<div
+					:style="{ animationDelay: `${index * 0.2}s` }"
+					class="skeleton-text"
+				></div>
+			</div>
 		</div>
 	</section>
 </template>
@@ -146,17 +164,21 @@ span {
 	border: 2px solid transparent;
 	transition: border-color 0.175s;
 	min-width: 210px;
+	animation: fadeIn 0.2s forwards;
+	animation-iteration-count: 1;
+	opacity: 0;
 }
 
 .skeleton-text {
 	height: 10px;
 	margin: 3px 0px;
+	min-width: 180px;
+	max-width: 180px;
 	background-color: #e0e0e0;
 	border-radius: 4px;
-	animation: shimmer 4s infinite linear;
+	animation: shimmer 1.5s infinite linear;
 }
 
-/* Skeleton image */
 .skeleton-image {
 	min-width: 180px;
 	max-width: 180px;
@@ -165,16 +187,26 @@ span {
 	border-radius: 8px;
 	margin: 0px;
 	margin-bottom: 5px;
-	animation: shimmer 4s infinite linear;
+	animation: shimmer 1.5s infinite linear;
 }
 
-/* Shimmer effect animation */
 @keyframes shimmer {
 	0% {
-		background-position: -1000px 0;
+		background-position: -720px 0;
+		background-size: 400% 10%;
 	}
 	100% {
-		background-position: 1000px 0;
+		background-position: 0px 0;
+		background-size: 400% 10%;
+	}
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
 	}
 }
 
