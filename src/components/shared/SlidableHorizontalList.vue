@@ -42,28 +42,28 @@ const props = withDefaults(defineProps<Props>(), {
 			</div>
 			<div
 				class="skeleton-loader"
-				:style="{ animationDelay: `${index * 0.2}s` }"
+				:style="{ animationDelay: `${Math.pow(12 - index, -1)}s` }"
 				v-for="index in 10"
 				:key="index"
 			>
 				<div
-					:style="{ animationDelay: `${index * 0.2}s` }"
+					:style="{ animationDelay: `${Math.pow(12 - index, -1)}s` }"
 					class="skeleton-image"
 				></div>
 				<div
-					:style="{ animationDelay: `${index * 0.2}s` }"
+					:style="{ animationDelay: `${Math.pow(12 - index, -1)}s` }"
 					class="skeleton-text"
 				></div>
 				<div
-					:style="{ animationDelay: `${index * 0.2}s` }"
+					:style="{ animationDelay: `${Math.pow(12 - index, -1)}s` }"
 					class="skeleton-text"
 				></div>
 				<div
-					:style="{ animationDelay: `${index * 0.2}s` }"
+					:style="{ animationDelay: `${Math.pow(12 - index, -1)}s` }"
 					class="skeleton-text"
 				></div>
 				<div
-					:style="{ animationDelay: `${index * 0.2}s` }"
+					:style="{ animationDelay: `${Math.pow(12 - index, -1)}s` }"
 					class="skeleton-text"
 				></div>
 			</div>

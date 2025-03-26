@@ -19,10 +19,10 @@ const logout = (e: Event) => {
 		</section>
 		<section>
 			<div class="header-wrapper">
-			<Button @click="logout" :is-outline="true" :is-rounded="true"
-				>Çıkış Yap</Button
-			>
-		</div>
+				<Button @click="logout" :is-outline="true" :is-rounded="true"
+					>Çıkış Yap</Button
+				>
+			</div>
 		</section>
 	</header>
 </template>
