@@ -6,11 +6,15 @@ import Aside from "./semantics/Aside.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth/auth.store";
 import { storeToRefs } from "pinia";
-import { watch } from "vue";
+import { provide, useTemplateRef, watch, type ShallowRef } from "vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
 const { isAuthenticated } = storeToRefs(authStore);
+
+type AsideType = InstanceType<typeof Aside>;
+const asideRef = useTemplateRef<AsideType>("aside");
+provide<Readonly<ShallowRef>>("aside", asideRef);
 
 watch(isAuthenticated, (state) => {
 	if (!state) {
@@ -22,8 +26,8 @@ watch(isAuthenticated, (state) => {
 	<div class="wrapper">
 		<Header />
 		<div class="content-wrapper">
-			<Aside />
-			<Content>
+			<Aside ref="aside" />
+			<Content v-bind="$attrs">
 				<slot></slot>
 			</Content>
 		</div>
